@@ -39,6 +39,22 @@ jobs:
         mix deps.compile
     - name: Check for unused dependencies
       run: mix deps.get && mix deps.unlock --check-unused
+    - name: Restore cached PLTs
+      uses: actions/cache@v3
+      id: plt_cache
+      with:
+        key: |
+          ${{ runner.os }}-1.15.4-26.0-plt
+        restore-keys: |
+          ${{ runner.os }}-1.15.4-26.0-plt
+        path: |
+          priv/plts
+    # Create PLTs if no cached PLTs were found
+    - name: Create PLTs
+      if: steps.plt_cache.outputs.cache-hit != 'true'
+      run:  mix dialyzer --plt
+    - name: Run dialyzer
+      run: mix dialyzer
     - name: Setup db
       run: mix ecto.create
     - name: Run tests
