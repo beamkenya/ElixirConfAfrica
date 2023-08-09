@@ -33,7 +33,12 @@ jobs:
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
-      run: mix deps.get
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        mix deps.get
+        mix deps.compile
+    - name: Check for unused dependencies
+      run: mix deps.get && mix deps.unlock --check-unused
     - name: Setup db
       run: mix ecto.create
     - name: Run tests
