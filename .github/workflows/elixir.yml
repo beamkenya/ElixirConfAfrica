@@ -59,3 +59,5 @@ jobs:
       run: mix ecto.create
     - name: Run tests
       run: mix test
+    - name: lint
+      run: mix lint

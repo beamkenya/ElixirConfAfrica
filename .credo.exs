@@ -24,7 +24,9 @@
         # included: ["lib/", "src/", "test/", "web/", "apps/"],
         excluded: [
           ~r"/_build/",
-          ~r"/deps/"
+          ~r"/deps/",
+          "lib/elixir_conf_africa_web/telemetry.ex",
+          "lib/elixir_conf_africa_web/components/layouts.ex"
         ]
       },
       #
