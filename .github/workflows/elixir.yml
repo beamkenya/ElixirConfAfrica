@@ -1,24 +1,23 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+name: CI
 
-name: Dev CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [pull_request, push]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-
-    name: Build and test
+  test:
+    name:  Test
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: elixir_conf_africa_test
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v3
@@ -35,5 +34,7 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Setup db
+      run: mix ecto.create
     - name: Run tests
       run: mix test
