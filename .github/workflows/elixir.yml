@@ -61,3 +61,5 @@ jobs:
       run: mix test
     - name: lint
       run: mix lint
+    - name: Run test coverage
+      run: mix coveralls

@@ -13,7 +13,14 @@ defmodule ElixirConfAfrica.MixProject do
       dialyzer: [
         plt_local_path: "priv/plts",
         plt_add_apps: [:mix]
-      ]
+      ],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: %{
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      }
     ]
   end
 
@@ -55,7 +62,8 @@ defmodule ElixirConfAfrica.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:dialyxir, "~> 1.3", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: :dev, runtime: false}
+      {:credo, "~> 1.7", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.17.0", only: :test}
     ]
   end
 
