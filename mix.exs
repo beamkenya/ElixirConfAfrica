@@ -61,7 +61,7 @@ defmodule ElixirConfAfrica.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:dialyxir, "~> 1.3", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: :dev, runtime: false},
       {:excoveralls, "~> 0.17.0", only: :test}
     ]
