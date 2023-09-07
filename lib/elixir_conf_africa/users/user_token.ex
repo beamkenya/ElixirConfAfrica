@@ -2,6 +2,7 @@ defmodule ElixirConfAfrica.Users.UserToken do
   use Ecto.Schema
   import Ecto.Query
   alias ElixirConfAfrica.Users.UserToken
+  @moduledoc false
 
   @hash_algorithm :sha256
   @rand_size 32

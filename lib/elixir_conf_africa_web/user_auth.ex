@@ -1,5 +1,6 @@
 defmodule ElixirConfAfricaWeb.UserAuth do
   use ElixirConfAfricaWeb, :verified_routes
+  @moduledoc false
 
   import Plug.Conn
   import Phoenix.Controller

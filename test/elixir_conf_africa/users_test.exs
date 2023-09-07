@@ -1,4 +1,6 @@
 defmodule ElixirConfAfrica.UsersTest do
+  @moduledoc false
+
   use ElixirConfAfrica.DataCase
 
   alias ElixirConfAfrica.Users
