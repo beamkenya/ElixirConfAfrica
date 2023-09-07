@@ -7,6 +7,9 @@ defmodule ElixirConfAfrica.Users.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :first_name, :string
+    field :last_name, :string
+    field :country, :string
 
     timestamps()
   end
@@ -36,7 +39,8 @@ defmodule ElixirConfAfrica.Users.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :first_name, :last_name, :country])
+    |> validate_required([:first_name, :last_name, :country])
     |> validate_email(opts)
     |> validate_password(opts)
   end
