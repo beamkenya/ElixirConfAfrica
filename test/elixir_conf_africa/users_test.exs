@@ -268,7 +268,7 @@ defmodule ElixirConfAfrica.UsersTest do
 
       assert %{
                password: ["should be at least 12 character(s)"],
-               password_confirmation: ["does not match password"],
+               password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
 
