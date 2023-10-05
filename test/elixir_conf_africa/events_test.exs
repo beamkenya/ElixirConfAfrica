@@ -8,7 +8,7 @@ defmodule ElixirConfAfrica.EventsTest do
 
     import ElixirConfAfrica.EventsFixtures
 
-    @invalid_attrs %{location: nil, start_date: nil, end_date: nil, event_type: nil}
+    @invalid_attrs %{name: nil, location: nil, start_date: nil, end_date: nil, event_type: nil}
 
     test "list_events/0 returns all events" do
       event = event_fixture()
