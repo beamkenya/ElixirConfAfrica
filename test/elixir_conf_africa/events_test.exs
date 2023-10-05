@@ -22,16 +22,18 @@ defmodule ElixirConfAfrica.EventsTest do
 
     test "create_event/1 with valid data creates a event" do
       valid_attrs = %{
+        name: "some name",
         location: "some location",
-        start_date: ~U[2023-10-03 11:14:00Z],
-        end_date: ~U[2023-10-03 11:14:00Z],
+        start_date: ~N[2023-10-03 11:14:00],
+        end_date: ~N[2023-10-03 11:14:00],
         event_type: "some event_type"
       }
 
       assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
+      assert event.name == "some name"
       assert event.location == "some location"
-      assert event.start_date == ~U[2023-10-03 11:14:00Z]
-      assert event.end_date == ~U[2023-10-03 11:14:00Z]
+      assert event.start_date == ~N[2023-10-03 11:14:00]
+      assert event.end_date == ~N[2023-10-03 11:14:00]
       assert event.event_type == "some event_type"
     end
 
@@ -44,15 +46,15 @@ defmodule ElixirConfAfrica.EventsTest do
 
       update_attrs = %{
         location: "some updated location",
-        start_date: ~U[2023-10-04 11:14:00Z],
-        end_date: ~U[2023-10-04 11:14:00Z],
+        start_date: ~N[2023-10-04 11:14:00],
+        end_date: ~N[2023-10-04 11:14:00],
         event_type: "some updated event_type"
       }
 
       assert {:ok, %Event{} = event} = Events.update_event(event, update_attrs)
       assert event.location == "some updated location"
-      assert event.start_date == ~U[2023-10-04 11:14:00Z]
-      assert event.end_date == ~U[2023-10-04 11:14:00Z]
+      assert event.start_date == ~N[2023-10-04 11:14:00]
+      assert event.end_date == ~N[2023-10-04 11:14:00]
       assert event.event_type == "some updated event_type"
     end
 

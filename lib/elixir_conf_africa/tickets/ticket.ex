@@ -1,4 +1,6 @@
 defmodule ElixirConfAfrica.Tickets.Ticket do
+  @moduledoc false
+
   use Ecto.Schema
   import Ecto.Changeset
 
