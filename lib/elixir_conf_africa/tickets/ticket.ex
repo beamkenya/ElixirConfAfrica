@@ -7,7 +7,7 @@ defmodule ElixirConfAfrica.Tickets.Ticket do
   schema "tickets" do
     field :type, :string
     field :description, :string
-    field :price, :integer
+    field :price, :decimal
     field :ticket_number, :integer
     belongs_to :event, ElixirConfAfrica.Events.Event
 

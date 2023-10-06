@@ -29,14 +29,14 @@ defmodule ElixirConfAfrica.TicketsTest do
         event_id: event.id,
         type: "some type",
         description: "some description",
-        price: 42,
+        price: "133.4",
         ticket_number: 42
       }
 
       assert {:ok, %Ticket{} = ticket} = Tickets.create_ticket(valid_attrs)
       assert ticket.type == "some type"
       assert ticket.description == "some description"
-      assert ticket.price == 42
+      assert ticket.price == Decimal.new("133.4")
       assert ticket.ticket_number == 42
     end
 
@@ -51,14 +51,14 @@ defmodule ElixirConfAfrica.TicketsTest do
       update_attrs = %{
         type: "some updated type",
         description: "some updated description",
-        price: 43,
+        price: "543.9",
         ticket_number: 43
       }
 
       assert {:ok, %Ticket{} = ticket} = Tickets.update_ticket(ticket, update_attrs)
       assert ticket.type == "some updated type"
       assert ticket.description == "some updated description"
-      assert ticket.price == 43
+      assert ticket.price == Decimal.new("543.9")
       assert ticket.ticket_number == 43
     end
 

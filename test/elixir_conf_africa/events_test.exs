@@ -8,7 +8,14 @@ defmodule ElixirConfAfrica.EventsTest do
 
     import ElixirConfAfrica.EventsFixtures
 
-    @invalid_attrs %{name: nil, location: nil, start_date: nil, end_date: nil, event_type: nil}
+    @invalid_attrs %{
+      name: nil,
+      location: nil,
+      description: nil,
+      start_date: nil,
+      end_date: nil,
+      event_type: nil
+    }
 
     test "list_events/0 returns all events" do
       event = event_fixture()
@@ -24,6 +31,7 @@ defmodule ElixirConfAfrica.EventsTest do
       valid_attrs = %{
         name: "some name",
         location: "some location",
+        description: "some very long description",
         start_date: ~N[2023-10-03 11:14:00],
         end_date: ~N[2023-10-03 11:14:00],
         event_type: "some event_type"
@@ -32,6 +40,7 @@ defmodule ElixirConfAfrica.EventsTest do
       assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
       assert event.name == "some name"
       assert event.location == "some location"
+      assert event.description == "some very long description"
       assert event.start_date == ~N[2023-10-03 11:14:00]
       assert event.end_date == ~N[2023-10-03 11:14:00]
       assert event.event_type == "some event_type"
@@ -46,6 +55,7 @@ defmodule ElixirConfAfrica.EventsTest do
 
       update_attrs = %{
         location: "some updated location",
+        description: "some very long updated description",
         start_date: ~N[2023-10-04 11:14:00],
         end_date: ~N[2023-10-04 11:14:00],
         event_type: "some updated event_type"
@@ -53,6 +63,7 @@ defmodule ElixirConfAfrica.EventsTest do
 
       assert {:ok, %Event{} = event} = Events.update_event(event, update_attrs)
       assert event.location == "some updated location"
+      assert event.description == "some very long updated description"
       assert event.start_date == ~N[2023-10-04 11:14:00]
       assert event.end_date == ~N[2023-10-04 11:14:00]
       assert event.event_type == "some updated event_type"

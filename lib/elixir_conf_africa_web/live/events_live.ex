@@ -105,18 +105,22 @@ defmodule ElixirConfAfricaWeb.EventsLive do
 
   def event_form(assigns) do
     ~H"""
-    <div>
-      <h2>Add New Event</h2>
-      <.form for={@form} phx-submit="save_event">
-        <.input field={@form[:name]} placeholder="Event name" />
-        <.input field={@form[:event_type]} placeholder="Event type" />
-        <.input field={@form[:location]} placeholder="Event location" />
-        <.input field={@form[:start_date]} type="datetime-local" placeholder="Start date" />
-        <.input field={@form[:end_date]} type="datetime-local" placeholder="End date" />
-        <.button phx-disable-with="Saving...">
-          Save Event
-        </.button>
-      </.form>
+    <div class="phx-modal">
+      <div class="phx-modal-content">
+        <div>
+          <h2>Add New Event</h2>
+          <.form for={@form} phx-submit="save_event">
+            <.input field={@form[:name]} placeholder="Event name" />
+            <.input field={@form[:event_type]} placeholder="Event type" />
+            <.input field={@form[:location]} placeholder="Event location" />
+            <.input field={@form[:start_date]} type="datetime-local" placeholder="Start date" />
+            <.input field={@form[:end_date]} type="datetime-local" placeholder="End date" />
+            <.button phx-disable-with="Saving...">
+              Save Event
+            </.button>
+          </.form>
+        </div>
+      </div>
     </div>
     """
   end
