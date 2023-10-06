@@ -11,6 +11,7 @@ defmodule ElixirConfAfrica.Events.Event do
     field :event_type, :string
     field :start_date, :naive_datetime
     field :end_date, :naive_datetime
+    has_many :ticket_types, ElixirConfAfrica.TicketTypes.TicketType
 
     timestamps()
   end

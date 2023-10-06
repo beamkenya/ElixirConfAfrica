@@ -7,7 +7,7 @@ defmodule ElixirConfAfrica.Repo.Migrations.CreateTickets do
       add :description, :string, null: false
       add :price, :decimal, null: false
       add :ticket_number, :integer, null: false
-      add :event_id, references(:events, on_delete: :nothing)
+      add :event_id, references(:events, on_delete: :nothing), null: false
 
       timestamps()
     end
@@ -15,7 +15,7 @@ defmodule ElixirConfAfrica.Repo.Migrations.CreateTickets do
     create index(:tickets, [:event_id])
 
     alter table(:events) do
-      add :tickets, references(:tickets, on_delete: :delete_all)
+      add :tickets, references(:tickets, on_delete: :nothing)
     end
   end
 end
