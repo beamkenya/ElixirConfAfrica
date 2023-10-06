@@ -12,11 +12,11 @@ defmodule ElixirConfAfrica.EventsFixtures do
       attrs
       |> Enum.into(%{
         name: "some name",
+        description: "some description",
         location: "some location",
-        description: "some very long description",
-        start_date: ~U[2023-10-03 11:14:00Z],
-        end_date: ~U[2023-10-03 11:14:00Z],
-        event_type: "some event_type"
+        event_type: "some event_type",
+        start_date: ~N[2023-10-05 06:18:00],
+        end_date: ~N[2023-10-05 06:18:00]
       })
       |> ElixirConfAfrica.Events.create_event()
 

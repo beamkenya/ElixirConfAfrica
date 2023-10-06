@@ -19,7 +19,7 @@ datetime = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   name: "ElixirConf 2024",
   event_type: "Conference",
   location: "Nairobi",
-  description: "A very long and bBEAMy description of some interestingly scary concept",
+  description: "A very long and BEAMy description of some interestingly scary concept",
   start_date: datetime,
   end_date: NaiveDateTime.add(datetime, Enum.random(1..5), :day)
 }
@@ -29,7 +29,7 @@ datetime = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   name: "BEAM: The Perfect Fit for Networks",
   event_type: "Webinar",
   location: "Zoom",
-  description: "A very long and bBEAMy description of some interestingly scary concept",
+  description: "A very long and BEAMy description of some interestingly scary concept",
   start_date: datetime,
   end_date: NaiveDateTime.add(datetime, Enum.random(1..5), :day)
 }
@@ -39,7 +39,7 @@ datetime = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   name: "Learn You Some Erlang",
   event_type: "Webinar",
   location: "Somewhere Crazy",
-  description: "A very long and bBEAMy description of some interestingly scary concept",
+  description: "A very long and BEAMy description of some interestingly scary concept",
   start_date: datetime,
   end_date: NaiveDateTime.add(datetime, Enum.random(1..5), :day)
 }
@@ -49,7 +49,7 @@ datetime = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   name: "Who Supervises The Supervisor",
   event_type: "Webinar",
   location: "Who Knows?",
-  description: "A very long and bBEAMy description of some interestingly scary concept",
+  description: "A very long and BEAMy description of some interestingly scary concept",
   start_date: datetime,
   end_date: NaiveDateTime.add(datetime, Enum.random(1..5), :day)
 }
