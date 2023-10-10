@@ -63,7 +63,8 @@ defmodule ElixirConfAfrica.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.17.0", only: :test}
+      {:excoveralls, "~> 0.17.0", only: :test},
+      {:faker, "~> 0.17.0", only: [:dev, :test], runtime: false}
     ]
   end
 
