@@ -1,0 +1,33 @@
+<.header>
+  Ticket type <%= @ticket_type.id %>
+  <:subtitle>This is a ticket_type record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/ticket_types/#{@ticket_type}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit ticket_type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @ticket_type.name %></:item>
+  <:item title="Description"><%= @ticket_type.description %></:item>
+  <:item title="Price"><%= @ticket_type.price %></:item>
+</.list>
+
+<.back navigate={~p"/ticket_types"}>Back to ticket_types</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="ticket_type-modal"
+  show
+  on_cancel={JS.patch(~p"/ticket_types/#{@ticket_type}")}
+>
+  <.live_component
+    module={ElixirConfAfricaWeb.TicketTypeLive.FormComponent}
+    id={@ticket_type.id}
+    title={@page_title}
+    action={@live_action}
+    ticket_type={@ticket_type}
+    patch={~p"/ticket_types/#{@ticket_type}"}
+  />
+</.modal>

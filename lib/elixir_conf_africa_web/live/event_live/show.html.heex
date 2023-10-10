@@ -16,6 +16,28 @@
   <:item title="Start date"><%= @event.start_date %></:item>
   <:item title="End date"><%= @event.end_date %></:item>
 </.list>
+<br />
+<.header>Event Ticket Types</.header>
+
+<.table id="ticket_types" rows={@event.ticket_types}>
+  <:col :let={ticket_type} label="Name"><%= ticket_type.name %></:col>
+  <:col :let={ticket_type} label="Description"><%= ticket_type.description %></:col>
+  <:col :let={ticket_type} label="Price"><%= ticket_type.price %></:col>
+  <:action :let={ticket_type}>
+    <div class="sr-only">
+      <.link navigate={~p"/ticket_types/#{ticket_type}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/ticket_types/#{ticket_type}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={ticket_type}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: ticket_type.id}) |> hide("##{ticket_type.id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
 
 <.back navigate={~p"/events"}>Back to events</.back>
 

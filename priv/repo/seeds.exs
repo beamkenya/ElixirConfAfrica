@@ -62,7 +62,7 @@ event =
     end_date:
       datetime
       |> NaiveDateTime.truncate(:second)
-      |> NaiveDateTime.add(datetime, Enum.random(1..5), :day)
+      |> NaiveDateTime.add(Enum.random(1..5), :day)
   }
   |> Repo.insert!()
 
@@ -141,7 +141,7 @@ datetime = Faker.DateTime.forward(Enum.random(1..30))
   end_date:
     datetime
     |> NaiveDateTime.truncate(:second)
-    |> NaiveDateTime.add(datetime, Enum.random(1..5), :day)
+    |> NaiveDateTime.add(Enum.random(1..5), :day)
 }
 |> Repo.insert!()
 

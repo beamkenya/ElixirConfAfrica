@@ -2,6 +2,7 @@ defmodule ElixirConfAfricaWeb.EventLive.Show do
   use ElixirConfAfricaWeb, :live_view
 
   alias ElixirConfAfrica.Events
+  alias ElixirConfAfrica.Repo
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,10 +11,15 @@ defmodule ElixirConfAfricaWeb.EventLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    event =
+      id
+      |> Events.get_event!()
+      |> Repo.preload(:ticket_types)
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:event, Events.get_event!(id))}
+     |> assign(:event, event)}
   end
 
   defp page_title(:show), do: "Show Event"
