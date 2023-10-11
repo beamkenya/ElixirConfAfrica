@@ -18,6 +18,20 @@ defmodule ElixirConfAfricaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/events", EventLive.Index, :index
+    live "/events/new", EventLive.Index, :new
+    live "/events/:id/edit", EventLive.Index, :edit
+
+    live "/events/:id", EventLive.Show, :show
+    live "/events/:id/show/edit", EventLive.Show, :edit
+
+    live "/ticket_types", TicketTypeLive.Index, :index
+    live "/ticket_types/new", TicketTypeLive.Index, :new
+    live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
+
+    live "/ticket_types/:id", TicketTypeLive.Show, :show
+    live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -1,0 +1,52 @@
+<.header>
+  Listing Ticket types
+  <:actions>
+    <.link patch={~p"/ticket_types/new"}>
+      <.button>New Ticket type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="ticket_types"
+  rows={@streams.ticket_types}
+  row_click={fn {_id, ticket_type} -> JS.navigate(~p"/ticket_types/#{ticket_type}") end}
+>
+  <:col :let={{_id, ticket_type}} label="Name"><%= ticket_type.name %></:col>
+  <:col :let={{_id, ticket_type}} label="Number"><%= ticket_type.number %></:col>
+  <:col :let={{_id, ticket_type}} label="Event ID">
+    <.link navigate={~p"/events/#{ticket_type.event_id}"}><%= ticket_type.event_id %></.link>
+  </:col>
+  <:col :let={{_id, ticket_type}} label="Description"><%= ticket_type.description %></:col>
+  <:col :let={{_id, ticket_type}} label="Price"><%= ticket_type.price %></:col>
+  <:action :let={{_id, ticket_type}}>
+    <div class="sr-only">
+      <.link navigate={~p"/ticket_types/#{ticket_type}"}>Show</.link>
+    </div>
+    <.link patch={~p"/ticket_types/#{ticket_type}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, ticket_type}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: ticket_type.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="ticket_type-modal"
+  show
+  on_cancel={JS.patch(~p"/ticket_types")}
+>
+  <.live_component
+    module={ElixirConfAfricaWeb.TicketTypeLive.FormComponent}
+    id={@ticket_type.id || :new}
+    title={@page_title}
+    action={@live_action}
+    ticket_type={@ticket_type}
+    patch={~p"/ticket_types"}
+  />
+</.modal>
