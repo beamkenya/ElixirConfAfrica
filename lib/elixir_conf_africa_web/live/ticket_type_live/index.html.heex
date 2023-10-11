@@ -13,6 +13,7 @@
   row_click={fn {_id, ticket_type} -> JS.navigate(~p"/ticket_types/#{ticket_type}") end}
 >
   <:col :let={{_id, ticket_type}} label="Name"><%= ticket_type.name %></:col>
+  <:col :let={{_id, ticket_type}} label="Number"><%= ticket_type.number %></:col>
   <:col :let={{_id, ticket_type}} label="Event ID">
     <.link navigate={~p"/events/#{ticket_type.event_id}"}><%= ticket_type.event_id %></.link>
   </:col>

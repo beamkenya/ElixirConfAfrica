@@ -19,8 +19,9 @@ defmodule ElixirConfAfricaWeb.TicketTypeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:event_id]} type="number" />
+        <.input field={@form[:event_id]} type="number" label="Event ID" />
         <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:number]} type="number" label="Number" />
         <.input field={@form[:description]} type="text" label="Description" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <:actions>

@@ -41,7 +41,8 @@ Enum.each(1..10, fn _num ->
       event_id: event.id,
       name: type,
       description: Faker.Lorem.sentence(),
-      price: 0.0 + Enum.random(20..500)
+      price: 0.0 + Enum.random(20..500),
+      number: Enum.random(100..500)
     }
     |> Repo.insert!()
   end)
@@ -71,7 +72,8 @@ Enum.each(Enum.shuffle(ticket_types_names), fn type ->
     event_id: event.id,
     name: type,
     description: Faker.Lorem.sentence(),
-    price: 0.0 + Enum.random(20..500)
+    price: 0.0 + Enum.random(20..500),
+    number: Enum.random(100..500)
   }
   |> Repo.insert!()
 end)
@@ -98,7 +100,8 @@ Enum.each(Enum.shuffle(ticket_types_names), fn type ->
     event_id: event.id,
     name: type,
     description: Faker.Lorem.sentence(),
-    price: 0.0 + Enum.random(20..500)
+    price: 0.0 + Enum.random(20..500),
+    number: Enum.random(100..500)
   }
   |> Repo.insert!()
 end)
@@ -123,7 +126,8 @@ Enum.each(Enum.shuffle(ticket_types_names), fn type ->
     event_id: event.id,
     name: type,
     description: Faker.Lorem.sentence(),
-    price: 0.0 + Enum.random(20..500)
+    price: 0.0 + Enum.random(20..500),
+    number: Enum.random(100..500)
   }
   |> Repo.insert!()
 end)
@@ -150,7 +154,8 @@ Enum.each(Enum.shuffle(ticket_types_names), fn type ->
     event_id: event.id,
     name: type,
     description: Faker.Lorem.sentence(),
-    price: 0.0 + Enum.random(20..500)
+    price: 0.0 + Enum.random(20..500),
+    number: Enum.random(100..500)
   }
   |> Repo.insert!()
 end)

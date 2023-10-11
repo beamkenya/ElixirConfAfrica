@@ -6,6 +6,7 @@ defmodule ElixirConfAfrica.Repo.Migrations.CreateTicketTypes do
       add :name, :string, null: false
       add :description, :text, null: false
       add :price, :decimal, null: false
+      add :number, :integer, null: false
       add :event_id, references(:events, on_delete: :nothing), null: false
 
       timestamps()

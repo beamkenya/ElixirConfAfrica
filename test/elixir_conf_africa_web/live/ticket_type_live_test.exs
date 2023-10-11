@@ -5,13 +5,19 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   import ElixirConfAfrica.TicketTypesFixtures
   import ElixirConfAfrica.EventsFixtures
 
-  @create_attrs %{name: "some name", description: "some description", price: "120.5"}
+  @create_attrs %{
+    name: "some name",
+    description: "some description",
+    price: "120.5",
+    number: "357"
+  }
   @update_attrs %{
     name: "some updated name",
     description: "some updated description",
-    price: "456.7"
+    price: "456.7",
+    number: "579"
   }
-  @invalid_attrs %{name: nil, description: nil, price: nil}
+  @invalid_attrs %{name: nil, description: nil, price: nil, number: nil}
 
   defp create_ticket_type(_) do
     event = event_fixture()

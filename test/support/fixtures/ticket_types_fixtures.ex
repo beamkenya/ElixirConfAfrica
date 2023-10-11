@@ -13,7 +13,8 @@ defmodule ElixirConfAfrica.TicketTypesFixtures do
       |> Enum.into(%{
         name: "some name",
         description: "some description",
-        price: "120.5"
+        price: "120.5",
+        number: "357"
       })
       |> ElixirConfAfrica.TicketTypes.create_ticket_type()
 

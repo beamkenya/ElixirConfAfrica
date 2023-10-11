@@ -9,7 +9,7 @@ defmodule ElixirConfAfrica.TicketTypesTest do
     import ElixirConfAfrica.TicketTypesFixtures
     import ElixirConfAfrica.EventsFixtures
 
-    @invalid_attrs %{name: nil, description: nil, price: nil}
+    @invalid_attrs %{name: nil, description: nil, price: nil, number: nil}
 
     test "list_ticket_types/0 returns all ticket_types" do
       event = event_fixture()
@@ -31,7 +31,8 @@ defmodule ElixirConfAfrica.TicketTypesTest do
         event_id: event.id,
         name: "some name",
         description: "some description",
-        price: "120.5"
+        price: "120.5",
+        number: "357"
       }
 
       assert {:ok, %TicketType{} = ticket_type} = TicketTypes.create_ticket_type(valid_attrs)
@@ -51,7 +52,8 @@ defmodule ElixirConfAfrica.TicketTypesTest do
       update_attrs = %{
         name: "some updated name",
         description: "some updated description",
-        price: "456.7"
+        price: "456.7",
+        number: "579"
       }
 
       assert {:ok, %TicketType{} = ticket_type} =
@@ -60,6 +62,7 @@ defmodule ElixirConfAfrica.TicketTypesTest do
       assert ticket_type.name == "some updated name"
       assert ticket_type.description == "some updated description"
       assert ticket_type.price == Decimal.new("456.7")
+      assert ticket_type.number == 579
     end
 
     test "update_ticket_type/2 with invalid data returns error changeset" do
