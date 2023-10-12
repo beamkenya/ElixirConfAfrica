@@ -21,6 +21,22 @@ defmodule ElixirConfAfrica.Events do
     Repo.all(from e in Event, order_by: [desc: e.id])
   end
 
+  def get_elixir_conf_event_and_ticket_types do
+    get_elixir_conf_event()
+    |> Repo.preload(:ticket_types)
+  end
+
+  defp get_elixir_conf_event do
+    Repo.get_by(Event, name: "ElixirConf Africa")
+  end
+
+  def get_all_available_tickets do
+    get_elixir_conf_event_and_ticket_types()
+    |> Map.get(:ticket_types)
+    |> Enum.map(fn x -> x.number end)
+    |> Enum.sum()
+  end
+
   @doc """
   Gets a single event.
 

@@ -84,24 +84,24 @@
         <div class="grid poppins-light grid-cols-2 gap-4 w-[100%]">
           <div class="flex flex-col gap-1">
             <p>Start Date</p>
-            <p class="poppins-regular ">19th June 2024</p>
+            <p class="poppins-regular "><%= @event.start_date %></p>
           </div>
           <div class="flex flex-col gap-1">
             <p>End Date</p>
-            <p class="poppins-regular ">24th June 2024</p>
+            <p class="poppins-regular "><%= @event.start_date %></p>
           </div>
           <div class="flex flex-col gap-1">
             <p>Event Type</p>
-            <p class="poppins-regular ">In Person event</p>
+            <p class="poppins-regular "><%= @event.event_type %></p>
           </div>
           <div class="flex flex-col gap-1">
             <p>Available Tickets</p>
-            <p class="poppins-regular ">150</p>
+            <p class="poppins-regular "><%= @available_tickets %></p>
           </div>
         </div>
         <div class="flex poppins-light flex-col gap-1">
           <p>Location</p>
-          <p class="poppins-regular">Jua Kali, Nairobi</p>
+          <p class="poppins-regular"><%= @event.location %></p>
         </div>
         <div class="flex flex-col gap-1">
           <p>Hosted by</p>
@@ -110,99 +110,32 @@
       </div>
       <div class="md:w-[65%]  w-[100%] md:h-[505px] bg-white rounded-[8px] border-[1px] border-[#E6E6E6]  flex flex-col gap-4 p-4 ">
         <p class="poppins-bold text-xl">Available Tickets</p>
+
         <div class="grid md:grid-cols-2 gap-8 w-[100%]">
-          <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-            <div class="flex  poppins-regular justify-between w-[100%]">
-              <p class="text-[#AD3989]">Early Bird Ticket</p>
-              <p class="text-[#4D4D4D]">200 Tickets</p>
-            </div>
-            <p class="poppins-light text-sm text-[#4D4D4D]">
-              This ticket gives you access to the 3-day in-person event at
-              the Jua Kali Avenue, Nairobi
-            </p>
-            <div class="flex items-center justify-between w-[100%]">
-              <p class="poppins-bold text-xl">KSH 5000</p>
-              <div class="flex gap-3 poppins-regular items-center">
-                <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
-                  <p>+</p>
-                  <p>Cart</p>
-                </button>
-                <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                  Get
-                  <p>Ticket</p>
-                </button>
+          <%= for ticket_type <- @event.ticket_types do %>
+            <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
+              <div class="flex  poppins-regular justify-between w-[100%]">
+                <p class="text-[#AD3989]"><%= ticket_type.name %></p>
+                <p class="text-[#4D4D4D]"><%= ticket_type.number %>Tickets</p>
+              </div>
+              <p class="poppins-light text-sm text-[#4D4D4D]">
+                <%= ticket_type.description %>
+              </p>
+              <div class="flex items-center justify-between w-[100%]">
+                <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
+                <div class="flex gap-3 poppins-regular items-center">
+                  <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
+                    <p>+</p>
+                    <p>Cart</p>
+                  </button>
+                  <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
+                    Get
+                    <p>Ticket</p>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-            <div class="flex  poppins-regular justify-between w-[100%]">
-              <p class="text-[#AD3989]">Early Bird Ticket</p>
-              <p class="text-[#4D4D4D]">200 Tickets</p>
-            </div>
-            <p class="poppins-light text-sm text-[#4D4D4D]">
-              This ticket gives you access to the 3-day in-person event at
-              the Jua Kali Avenue, Nairobi
-            </p>
-            <div class="flex items-center justify-between w-[100%]">
-              <p class="poppins-bold text-xl">KSH 5000</p>
-              <div class="flex gap-3 poppins-regular items-center">
-                <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
-                  <p>+</p>
-                  <p>Cart</p>
-                </button>
-                <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                  Get
-                  <p>Ticket</p>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-            <div class="flex  poppins-regular justify-between w-[100%]">
-              <p class="text-[#AD3989]">Early Bird Ticket</p>
-              <p class="text-[#4D4D4D]">200 Tickets</p>
-            </div>
-            <p class="poppins-light text-sm text-[#4D4D4D]">
-              This ticket gives you access to the 3-day in-person event at
-              the Jua Kali Avenue, Nairobi
-            </p>
-            <div class="flex items-center justify-between w-[100%]">
-              <p class="poppins-bold text-xl">KSH 5000</p>
-              <div class="flex gap-3 poppins-regular items-center">
-                <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
-                  <p>+</p>
-                  <p>Cart</p>
-                </button>
-                <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                  Get
-                  <p>Ticket</p>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-            <div class="flex  poppins-regular justify-between w-[100%]">
-              <p class="text-[#AD3989]">Early Bird Ticket</p>
-              <p class="text-[#4D4D4D]">200 Tickets</p>
-            </div>
-            <p class="poppins-light text-sm text-[#4D4D4D]">
-              This ticket gives you access to the 3-day in-person event at
-              the Jua Kali Avenue, Nairobi
-            </p>
-            <div class="flex items-center justify-between w-[100%]">
-              <p class="poppins-bold text-xl">KSH 5000</p>
-              <div class="flex gap-3 poppins-regular items-center">
-                <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
-                  <p>+</p>
-                  <p>Cart</p>
-                </button>
-                <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                  Get
-                  <p>Ticket</p>
-                </button>
-              </div>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>
