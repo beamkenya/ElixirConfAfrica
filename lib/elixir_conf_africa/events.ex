@@ -27,7 +27,7 @@ defmodule ElixirConfAfrica.Events do
   end
 
   defp get_elixir_conf_event do
-    Repo.get_by(Event, name: "ElixirConf Africa")
+    Repo.get_by(Event, name: "ElixirConf Africa 2024")
   end
 
   def get_all_available_tickets do
