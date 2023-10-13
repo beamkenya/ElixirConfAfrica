@@ -7,6 +7,7 @@ defmodule ElixirConfAfrica.Events do
   alias ElixirConfAfrica.Repo
 
   alias ElixirConfAfrica.Events.Event
+  alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
   Returns the list of events.
@@ -31,10 +32,14 @@ defmodule ElixirConfAfrica.Events do
   end
 
   def get_all_available_tickets do
-    get_elixir_conf_event_and_ticket_types()
-    |> Map.get(:ticket_types)
-    |> Enum.map(fn x -> x.number end)
-    |> Enum.sum()
+    get_elixir_conf_event = get_elixir_conf_event()
+
+    query =
+      from t in TicketType,
+        where: t.event_id == ^get_elixir_conf_event.id,
+        select: sum(t.number)
+
+    Repo.one(query)
   end
 
   @doc """
