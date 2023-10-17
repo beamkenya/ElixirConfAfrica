@@ -124,7 +124,11 @@
               <div class="flex items-center justify-between w-[100%]">
                 <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
                 <div class="flex gap-3 poppins-regular items-center">
-                  <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
+                  <button
+                    phx-value-id={ticket_type.id}
+                    phx-click="add_to_cart"
+                    class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]"
+                  >
                     <p>+</p>
                     <p>Cart</p>
                   </button>
@@ -141,3 +145,13 @@
     </div>
   </div>
 </div>
+
+<%= if @live_action in [:cart] do %>
+  <.live_component
+    module={ElixirConfAfricaWeb.HomeLive.CartComponent}
+    id="cart"
+    title="Cart"
+    action={@live_action}
+    patch={~p"/ticket_types"}
+  />
+<% end %>
