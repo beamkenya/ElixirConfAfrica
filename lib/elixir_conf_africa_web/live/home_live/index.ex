@@ -20,8 +20,10 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
 
   def handle_event("add_to_cart", %{"id" => id}, socket) do
     ticket_type =
-      TicketTypes.get_ticket_type!(String.to_integer(id))
-      |> Map.put(:quantity, 1)
+      id
+      |> String.to_integer()
+      |> TicketTypes.get_ticket_type!()
+      |> TicketTypes.add_quantity(1)
 
     if Enum.member?(socket.assigns.cart, ticket_type) do
       {:noreply,
