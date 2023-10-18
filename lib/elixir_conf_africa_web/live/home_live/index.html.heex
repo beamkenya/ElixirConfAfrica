@@ -57,10 +57,18 @@
     </div>
   </div>
   <div class="w-[90%] poppins-regular  flex md:gap-8 gap-4 items-center mx-auto">
-    <p>
+    <p
+      phx-value-page_state="details"
+      phx-click="change_page_state"
+      class={"cursor-pointer #{if @page_state == "details", do: " border-b-[2px] border-[#AD3989]", else: "text-[#4D4D4D]" }"}
+    >
       Details
     </p>
-    <p>
+    <p
+      phx-value-page_state="cart"
+      phx-click="change_page_state"
+      class={"cursor-pointer #{if @page_state == "cart", do: " border-b-[2px] border-[#AD3989]", else: "text-[#4D4D4D]" }"}
+    >
       Cart
     </p>
     <p>
@@ -72,70 +80,184 @@
   </div>
 </div>
 
-<%!-- navbar --%>
-
 <div class=" bg-[#F2F2F2]/50 py-12 pt-5">
-  <div class="w-[90%]  flex mx-auto">
-    <div class="w-[100%]  flex md:flex-row gap-8 flex-col justify-between items-start">
-      <div class="md:w-[30%] h-[377px] w-[100%] bg-white rounded-[8px] flex flex-col gap-4 p-4 border-[1px] border-[#E6E6E6] ">
-        <p class="text-[20px]  poppins-bold leading-[36px]">
-          Event Information
-        </p>
-        <div class="grid poppins-light grid-cols-2 gap-4 w-[100%]">
-          <div class="flex flex-col gap-1">
-            <p>Start Date</p>
-            <p class="poppins-regular "><%= @event.start_date %></p>
+  <%= if @page_state == "details" do %>
+    <div class="w-[90%]  flex mx-auto">
+      <div class="w-[100%]  flex md:flex-row gap-8 flex-col justify-between items-start">
+        <div class="md:w-[30%] h-[377px] w-[100%] bg-white rounded-[8px] flex flex-col gap-4 p-4 border-[1px] border-[#E6E6E6] ">
+          <p class="text-[20px]  poppins-bold leading-[36px]">
+            Event Information
+          </p>
+          <div class="grid poppins-light grid-cols-2 gap-4 w-[100%]">
+            <div class="flex flex-col gap-1">
+              <p>Start Date</p>
+              <p class="poppins-regular "><%= @event.start_date %></p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p>End Date</p>
+              <p class="poppins-regular "><%= @event.start_date %></p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p>Event Type</p>
+              <p class="poppins-regular "><%= @event.event_type %></p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p>Available Tickets</p>
+              <p class="poppins-regular "><%= @available_tickets %></p>
+            </div>
+          </div>
+          <div class="flex poppins-light flex-col gap-1">
+            <p>Location</p>
+            <p class="poppins-regular"><%= @event.location %></p>
           </div>
           <div class="flex flex-col gap-1">
-            <p>End Date</p>
-            <p class="poppins-regular "><%= @event.start_date %></p>
-          </div>
-          <div class="flex flex-col gap-1">
-            <p>Event Type</p>
-            <p class="poppins-regular "><%= @event.event_type %></p>
-          </div>
-          <div class="flex flex-col gap-1">
-            <p>Available Tickets</p>
-            <p class="poppins-regular "><%= @available_tickets %></p>
+            <p>Hosted by</p>
+            <p class="poppins-regular ">Elixir Conf Africa</p>
           </div>
         </div>
-        <div class="flex poppins-light flex-col gap-1">
-          <p>Location</p>
-          <p class="poppins-regular"><%= @event.location %></p>
-        </div>
-        <div class="flex flex-col gap-1">
-          <p>Hosted by</p>
-          <p class="poppins-regular ">Elixir Conf Africa</p>
+        <div class="md:w-[65%]  w-[100%] md:h-[505px] bg-white rounded-[8px] border-[1px] border-[#E6E6E6]  flex flex-col gap-4 p-4 ">
+          <p class="poppins-bold text-xl">Available Tickets</p>
+
+          <div class="grid md:grid-cols-2 gap-8 w-[100%]">
+            <%= for ticket_type <- @event.ticket_types do %>
+              <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
+                <div class="flex  poppins-regular justify-between w-[100%]">
+                  <p class="text-[#AD3989]"><%= ticket_type.name %></p>
+                  <p class="text-[#4D4D4D]"><%= ticket_type.number %>Tickets</p>
+                </div>
+                <p class="poppins-light text-sm text-[#4D4D4D]">
+                  <%= ticket_type.description %>
+                </p>
+                <div class="flex items-center justify-between w-[100%]">
+                  <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
+                  <div class="flex gap-3 poppins-regular items-center">
+                    <button
+                      phx-value-id={ticket_type.id}
+                      phx-click="add_to_cart"
+                      class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]"
+                    >
+                      <p>+</p>
+                      <p>Cart</p>
+                    </button>
+                    <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
+                      Get
+                      <p>Ticket</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
-      <div class="md:w-[65%]  w-[100%] md:h-[505px] bg-white rounded-[8px] border-[1px] border-[#E6E6E6]  flex flex-col gap-4 p-4 ">
-        <p class="poppins-bold text-xl">Available Tickets</p>
+    </div>
+  <% else %>
+    <div class="w-[90%]  flex mx-auto">
+      <div class="w-[100%] flex md:flex-row flex-col  justify-between items-start">
+        <div class="md:w-[40%]  w-[100%pb-6  bg-white rounded-[8px] flex flex-col gap-6 p-4 border-[1px] border-[#E6E6E6] ">
+          <p class="text-[20px] leading-[36px] poppins-bold">
+            Ticket Cart
+          </p>
 
-        <div class="grid md:grid-cols-2 gap-8 w-[100%]">
-          <%= for ticket_type <- @event.ticket_types do %>
-            <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-              <div class="flex  poppins-regular justify-between w-[100%]">
-                <p class="text-[#AD3989]"><%= ticket_type.name %></p>
-                <p class="text-[#4D4D4D]"><%= ticket_type.number %>Tickets</p>
-              </div>
-              <p class="poppins-light text-sm text-[#4D4D4D]">
-                <%= ticket_type.description %>
+          <%= for cart_item <- @cart do %>
+            <div class="py-6 w-[100%] border-b-[1px] border-[#E6E6E6] flex gap-3 flex-col">
+              <p class=" poppins-regular text-xl text-[#AD3989]">
+                <%= cart_item.name %>
               </p>
-              <div class="flex items-center justify-between w-[100%]">
-                <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
-                <div class="flex gap-3 poppins-regular items-center">
-                  <button
-                    phx-value-id={ticket_type.id}
-                    phx-click="add_to_cart"
-                    class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]"
-                  >
+              <div class="flex md:flex-row flex-col justify-between w-[100%]">
+                <div class="md:w-[70%]">
+                  <p class="poppins-light text-[#4D4D4D]">
+                    This ticket gives you access to the 3-day in-person event at
+                    the Jua Kali Avenue, Nairobi
+                  </p>
+                  <p class="my-2 hidden poppins-bold text-xl"><%= cart_item.price %></p>
+                </div>
+                <div class="md:w-[20%] w-[100%] poppins-light flex md:flex-col justify-between flex-row-reverse gap-1 md:items-end items-center">
+                  <div class="md:w-[100%] w-[40%] p-2 text-[#808080] poppins-light border-[#CCCCCC]  border-[1px] rounded-[2px] h-[40px] flex justify-between items-center">
+                    <p>-</p>
+                    <p><%= cart_item.quantity %></p>
                     <p>+</p>
-                    <p>Cart</p>
-                  </button>
-                  <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                    Get
-                    <p>Ticket</p>
-                  </button>
+                  </div>
+                  <p class="md:text-base poppins-regular md:poppins-light text-xl">
+                    <%= cart_item.price %>
+                  </p>
+                </div>
+              </div>
+              <p class="text-[#545F71] poppins-light">
+                Who is this ticket for ?
+              </p>
+              <input
+                class="w-[60%] border-[1px] focus:border-gray-300 poppins-light focus:ring-gray-300  p-2 rounded-[6px] h-[48px] border-[#545F71]"
+                placeholder="James Macharia"
+              />
+            </div>
+          <% end %>
+
+          <div class="flex text-[#333333] poppins-regular justify-between  w-[100%]">
+            <p>Total Amount</p>
+            <p><%= @total_price %></p>
+          </div>
+          <div class="w-[100%] poppins-regular mt-4 ">
+            <p class="bg-[#AD3989] p-2 flex justify-center items-center w-[100%] rounded-[6px] text-white text-lg">
+              Checkout
+            </p>
+          </div>
+        </div>
+        <div class="md:w-[56%] w-[100%] pb-12  bg-white rounded-[8px] flex flex-col gap-6 p-4 border-[1px] border-[#E6E6E6] ">
+          <p class="text-[20px] leading-[36px] poppins-bold">
+            Ticket Overview
+          </p>
+
+          <%= for cart_item <- @cart do %>
+            <p class="poppins-light text-[#202020]">Early Bird Ticket</p>
+            <div class="w-[100%] md:h-[250px] bg-[#202020] relative rounded-[12px]">
+              <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
+                <img src="images/backlogo.svg" class="w-[128px] object-cover h-[128px]" alt="" />
+              </p>
+              <div class="w-[100%] h-[100%] flex md:flex-row flex-col  justify-between ">
+                <div class=" md:w-[20%] w-[100%] flex md:justify-center justify-between items-center p-2 md:p-4">
+                  <img src="images/earlybird.svg" class="w-[136px] h-[90px] object-cover" />
+                  <p class="text-white md:text-3xl text-2xl  md:hidden  poppins-bold">
+                    Elixir Safari
+                  </p>
+                </div>
+                <div class="md:w-[50%] h-[100%] flex flex-col justify-between p-4">
+                  <p class="text-white text-3xl  hidden md:block poppins-bold">
+                    Elixir Safari
+                  </p>
+                  <div class="flex text-white  gap-5 flex-col w-[100%">
+                    <div class="flex text-white justify-between w-[100%]">
+                      <div class="flex gap-1">
+                        <p class="uppercase poppins-regular">Name:</p>
+                        <p class="uppercase  poppins-light">Otieno</p>
+                      </div>
+                      <div class="flex gap-1">
+                        <p class="uppercase poppins-regular">Country:</p>
+                        <p class="uppercase  poppins-light">kenya</p>
+                      </div>
+                    </div>
+                    <div class="w-[100%] flex poppins-light justify-between uppercase items-center">
+                      <p>20th June 2024</p>
+                      <p class="bg-white h-[1px] w-[10px] " />
+                      <p>20th June 2024</p>
+                    </div>
+                  </div>
+                  <div class="w-[100%] poppins-regular flex justify-between">
+                    <p class="uppercase text-sm bg-white p-2 font-semibold  ">
+                      Ticket Value
+                    </p>
+                    <p class="uppercase text-sm  p-2 bg-[#9AD7D8] font-semibold  ">
+                      <%= cart_item.price %>
+                    </p>
+                  </div>
+                </div>
+                <div class=" md:w-[20%] w-[100%] md:border-l-[1px] border-t-[1px] border-white border-dashed flex justify-center items-center p-4">
+                  <img src="images/qr.svg" class="w-[80px] h-[80px] hidden md:block" alt="" />
+                  <img
+                    src="images/barcode.svg"
+                    class="w-[100%]  object-cover h-[80px] md:hidden "
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
@@ -143,15 +265,5 @@
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
-
-<%= if @live_action in [:cart] do %>
-  <.live_component
-    module={ElixirConfAfricaWeb.HomeLive.CartComponent}
-    id="cart"
-    title="Cart"
-    action={@live_action}
-    patch={~p"/ticket_types"}
-  />
-<% end %>
