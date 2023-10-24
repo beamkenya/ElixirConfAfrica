@@ -19,6 +19,8 @@ defmodule ElixirConfAfricaWeb.Router do
 
     get "/", PageController, :home
 
+    live "/home", HomeLive.Index, :index
+
     live "/events", EventLive.Index, :index
     live "/events/new", EventLive.Index, :new
     live "/events/:id/edit", EventLive.Index, :edit
