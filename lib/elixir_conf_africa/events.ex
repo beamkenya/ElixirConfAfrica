@@ -35,8 +35,7 @@ defmodule ElixirConfAfrica.Events do
     query =
       from t in TicketType,
         join: e in Event,
-        on: t.event_id == e.id,
-        where: e.name == ^"ElixirConf Africa 2024",
+        on: t.event_id == e.id and e.name == "ElixirConf Africa 2024",
         select: sum(t.number)
 
     Repo.one(query)
