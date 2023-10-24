@@ -32,11 +32,11 @@ defmodule ElixirConfAfrica.Events do
   end
 
   def get_all_available_tickets do
-    get_elixir_conf_event = get_elixir_conf_event()
-
     query =
       from t in TicketType,
-        where: t.event_id == ^get_elixir_conf_event.id,
+        join: e in Event,
+        on: t.event_id == e.id,
+        where: e.name == ^"ElixirConf Africa 2024",
         select: sum(t.number)
 
     Repo.one(query)
