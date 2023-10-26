@@ -27,7 +27,8 @@ defmodule ElixirConfAfrica.Events do
     |> Repo.preload(:ticket_types)
   end
 
-  defp get_elixir_conf_event do
+  @spec get_elixir_conf_event() :: any()
+  def get_elixir_conf_event do
     Repo.get_by(Event, name: "ElixirConf Africa 2024")
   end
 
@@ -41,6 +42,7 @@ defmodule ElixirConfAfrica.Events do
     Repo.one(query)
   end
 
+  @spec get_event!(any()) :: any()
   @doc """
   Gets a single event.
 
