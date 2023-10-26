@@ -68,7 +68,6 @@ defmodule ElixirConfAfrica.EventsTest do
       assert Events.get_elixir_conf_event_and_ticket_types().ticket_types == [ticket_type]
     end
 
-
     test "get_all_available_tickets/0 returns the number of available tickets" do
       valid_attrs = %{
         name: "ElixirConf Africa 2024",
