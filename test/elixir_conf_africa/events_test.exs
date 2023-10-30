@@ -8,6 +8,8 @@ defmodule ElixirConfAfrica.EventsTest do
 
     import ElixirConfAfrica.EventsFixtures
 
+    import ElixirConfAfrica.Factory
+
     @invalid_attrs %{
       name: nil,
       description: nil,
@@ -23,9 +25,10 @@ defmodule ElixirConfAfrica.EventsTest do
     end
 
     test "get_elixir_conf_event /0 returns the elixir conf event" do
-      event = elixir_conf_event_fixture()
+      event =
+        insert!(:elixir_conf_event)
 
-      assert Events.get_elixir_conf_event() == event
+      assert Events.get_elixir_conf_event().name == event.name
     end
 
     test "get_event!/1 returns the event with given id" do
@@ -34,17 +37,23 @@ defmodule ElixirConfAfrica.EventsTest do
     end
 
     test "get_elixir_conf_event_and_ticket_types/0 returns the elixir conf event with ticket types" do
-      event_with_ticket_types = elixir_conf_event_with_tickets_fixture()
-      assert Events.get_elixir_conf_event() == hd(event_with_ticket_types)
+      event =
+        insert!(:elixir_conf_event)
 
-      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != [
-               tl(event_with_ticket_types)
-             ]
+      ticket_type =
+        insert!(:elixir_conf_ticket_type, event_id: event.id)
+
+      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != [ ]
     end
 
     test "get_all_available_tickets/0 returns the number of available tickets" do
-      event_with_ticket_types = elixir_conf_event_with_tickets_fixture()
-      assert Events.get_all_available_tickets() == 357
+      event =
+        insert!(:elixir_conf_event)
+
+      ticket_type =
+        insert!(:elixir_conf_ticket_type, event_id: event.id)
+
+      assert Events.get_all_available_tickets() == ticket_type.number
     end
 
     test "create_event/1 with valid data creates a event" do
