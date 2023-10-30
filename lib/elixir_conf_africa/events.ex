@@ -27,7 +27,7 @@ defmodule ElixirConfAfrica.Events do
     |> Repo.preload(:ticket_types)
   end
 
-  @spec get_elixir_conf_event() :: any()
+  @spec get_elixir_conf_event() :: nil | Event.t()
   def get_elixir_conf_event do
     Repo.get_by(Event, name: "ElixirConf Africa 2024")
   end
