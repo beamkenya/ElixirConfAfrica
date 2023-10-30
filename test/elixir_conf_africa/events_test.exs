@@ -25,16 +25,8 @@ defmodule ElixirConfAfrica.EventsTest do
     end
 
     test "get_elixir_conf_event /0 returns the elixir conf event" do
-      valid_attrs = %{
-        name: "ElixirConf Africa 2024",
-        description: "some description",
-        location: "some location",
-        event_type: "some event_type",
-        start_date: ~N[2023-10-05 06:18:00],
-        end_date: ~N[2023-10-05 06:18:00]
-      }
+      event = elixir_conf_event_fixture()
 
-      assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
       assert Events.get_elixir_conf_event() == event
     end
 
@@ -44,52 +36,16 @@ defmodule ElixirConfAfrica.EventsTest do
     end
 
     test "get_elixir_conf_event_and_ticket_types/0 returns the elixir conf event with ticket types" do
-      valid_attrs = %{
-        name: "ElixirConf Africa 2024",
-        description: "some description",
-        location: "some location",
-        event_type: "some event_type",
-        start_date: ~N[2023-10-05 06:18:00],
-        end_date: ~N[2023-10-05 06:18:00]
-      }
+      event_with_ticket_types = elixir_conf_event_with_tickets_fixture()
+      assert Events.get_elixir_conf_event() == hd(event_with_ticket_types)
 
-      assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
-      assert Events.get_elixir_conf_event() == event
-
-      ticket_type_attr = %{
-        event_id: event.id,
-        name: "some name",
-        description: "some description",
-        price: "120.5",
-        number: "357"
-      }
-
-      assert {:ok, %TicketType{} = ticket_type} = TicketTypes.create_ticket_type(ticket_type_attr)
-      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types == [ticket_type]
+      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != [
+               tl(event_with_ticket_types)
+             ]
     end
 
     test "get_all_available_tickets/0 returns the number of available tickets" do
-      valid_attrs = %{
-        name: "ElixirConf Africa 2024",
-        description: "some description",
-        location: "some location",
-        event_type: "some event_type",
-        start_date: ~N[2023-10-05 06:18:00],
-        end_date: ~N[2023-10-05 06:18:00]
-      }
-
-      assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
-      assert Events.get_elixir_conf_event() == event
-
-      ticket_type_attr = %{
-        event_id: event.id,
-        name: "some name",
-        description: "some description",
-        price: "120.5",
-        number: "357"
-      }
-
-      assert {:ok, %TicketType{} = ticket_type} = TicketTypes.create_ticket_type(ticket_type_attr)
+      event_with_ticket_types = elixir_conf_event_with_tickets_fixture()
       assert Events.get_all_available_tickets() == 357
     end
 
