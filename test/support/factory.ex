@@ -1,4 +1,5 @@
 defmodule ElixirConfAfrica.Factory do
+  @moduledoc false
   alias ElixirConfAfrica.Repo
 
   def build(:elixir_conf_event) do
