@@ -2,8 +2,6 @@ defmodule ElixirConfAfrica.EventsTest do
   use ElixirConfAfrica.DataCase
 
   alias ElixirConfAfrica.Events
-  alias ElixirConfAfrica.TicketTypes.TicketType
-  alias ElixirConfAfrica.TicketTypes
 
   describe "events" do
     alias ElixirConfAfrica.Events.Event
