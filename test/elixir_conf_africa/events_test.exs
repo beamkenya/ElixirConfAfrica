@@ -43,7 +43,7 @@ defmodule ElixirConfAfrica.EventsTest do
       ticket_type =
         insert!(:elixir_conf_ticket_type, event_id: event.id)
 
-      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != [ ]
+      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != []
     end
 
     test "get_all_available_tickets/0 returns the number of available tickets" do
