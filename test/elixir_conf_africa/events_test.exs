@@ -40,7 +40,7 @@ defmodule ElixirConfAfrica.EventsTest do
       event =
         insert!(:elixir_conf_event)
 
-      ticket_type =
+      _ticket_type =
         insert!(:elixir_conf_ticket_type, event_id: event.id)
 
       assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != []
@@ -53,7 +53,7 @@ defmodule ElixirConfAfrica.EventsTest do
       ticket_type =
         insert!(:elixir_conf_ticket_type, event_id: event.id)
 
-      assert Events.get_all_available_tickets() == ticket_type.number
+      assert Events.get_number_of_tickets_available_for_elixir_conf_2024() == ticket_type.number
     end
 
     test "create_event/1 with valid data creates a event" do

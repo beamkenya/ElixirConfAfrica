@@ -22,17 +22,33 @@ defmodule ElixirConfAfrica.Events do
     Repo.all(from e in Event, order_by: [desc: e.id])
   end
 
+  @doc """
+  Returns the elixir conf event together with all its ticket types
+
+
+
+  """
+
   def get_elixir_conf_event_and_ticket_types do
     get_elixir_conf_event()
     |> Repo.preload(:ticket_types)
   end
 
+  @doc """
+  Returns the elixir conf event .
+
+  """
   @spec get_elixir_conf_event() :: any()
   def get_elixir_conf_event do
     Repo.get_by(Event, name: "ElixirConf Africa 2024")
   end
 
-  def get_all_available_tickets do
+  @doc """
+  Returns the elixir conf event total available tickets got from the summation of quantity of each ticket type for the event
+
+  """
+
+  def get_number_of_tickets_available_for_elixir_conf_2024 do
     query =
       from t in TicketType,
         join: e in Event,
