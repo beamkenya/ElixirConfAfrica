@@ -6,8 +6,6 @@ defmodule ElixirConfAfrica.EventsTest do
   describe "events" do
     alias ElixirConfAfrica.Events.Event
 
-    import ElixirConfAfrica.EventsFixtures
-
     import ElixirConfAfrica.Factory
 
     @invalid_attrs %{
@@ -18,42 +16,41 @@ defmodule ElixirConfAfrica.EventsTest do
       start_date: nil,
       end_date: nil
     }
+    setup do
+      event = insert!(:elixir_conf_event)
+      [event: event]
+    end
 
-    test "list_events/0 returns all events" do
-      event = event_fixture()
+    test "list_events/0 returns all events", %{event: event} do
       assert Events.list_events() == [event]
     end
 
-    test "get_elixir_conf_event /0 returns the elixir conf event" do
-      event =
-        insert!(:elixir_conf_event)
-
-      assert Events.get_elixir_conf_event().name == event.name
+    test "get_elixir_conf_event /0 returns the elixir conf event", %{event: event} do
+      assert %{name: name} = Events.get_elixir_conf_event()
+      assert name == event.name
     end
 
-    test "get_event!/1 returns the event with given id" do
-      event = event_fixture()
+    test "get_event!/1 returns the event with given id", %{event: event} do
       assert Events.get_event!(event.id) == event
     end
 
-    test "get_elixir_conf_event_and_ticket_types/0 returns the elixir conf event with ticket types" do
-      event =
-        insert!(:elixir_conf_event)
+    test "get_elixir_conf_event_and_ticket_types/0 returns the elixir conf event with ticket types",
+         %{event: event} do
+      ticket_type = insert!(:elixir_conf_ticket_type, event_id: event.id)
 
-      _ticket_type =
-        insert!(:elixir_conf_ticket_type, event_id: event.id)
+      assert %{ticket_types: [fetched_ticket_type]} =
+               Events.get_elixir_conf_event_and_ticket_types()
 
-      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != []
+      assert fetched_ticket_type.id == ticket_type.id
     end
 
-    test "get_all_available_tickets/0 returns the number of available tickets" do
-      event =
-        insert!(:elixir_conf_event)
+    test "get_all_available_tickets/0 returns the number of available tickets", %{event: event} do
+      ticket_type = insert!(:elixir_conf_ticket_type, event_id: event.id)
+      ticket_type1 = insert!(:elixir_conf_ticket_type, event_id: event.id)
+      totat_number_of_tickets = ticket_type.number + ticket_type1.number
 
-      ticket_type =
-        insert!(:elixir_conf_ticket_type, event_id: event.id)
-
-      assert Events.get_number_of_tickets_available_for_elixir_conf_2024() == ticket_type.number
+      assert Events.get_number_of_tickets_available("ElixirConf Africa 2024") ==
+               totat_number_of_tickets
     end
 
     test "create_event/1 with valid data creates a event" do
@@ -79,9 +76,7 @@ defmodule ElixirConfAfrica.EventsTest do
       assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs)
     end
 
-    test "update_event/2 with valid data updates the event" do
-      event = event_fixture()
-
+    test "update_event/2 with valid data updates the event", %{event: event} do
       update_attrs = %{
         name: "some updated name",
         description: "some updated description",
@@ -100,20 +95,17 @@ defmodule ElixirConfAfrica.EventsTest do
       assert event.end_date == ~N[2023-10-06 06:18:00]
     end
 
-    test "update_event/2 with invalid data returns error changeset" do
-      event = event_fixture()
+    test "update_event/2 with invalid data returns error changeset", %{event: event} do
       assert {:error, %Ecto.Changeset{}} = Events.update_event(event, @invalid_attrs)
       assert event == Events.get_event!(event.id)
     end
 
-    test "delete_event/1 deletes the event" do
-      event = event_fixture()
+    test "delete_event/1 deletes the event", %{event: event} do
       assert {:ok, %Event{}} = Events.delete_event(event)
       assert_raise Ecto.NoResultsError, fn -> Events.get_event!(event.id) end
     end
 
-    test "change_event/1 returns a event changeset" do
-      event = event_fixture()
+    test "change_event/1 returns a event changeset", %{event: event} do
       assert %Ecto.Changeset{} = Events.change_event(event)
     end
   end

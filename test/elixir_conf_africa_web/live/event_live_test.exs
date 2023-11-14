@@ -2,7 +2,7 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import ElixirConfAfrica.EventsFixtures
+  import ElixirConfAfrica.Factory
 
   @create_attrs %{
     name: "some name",
@@ -30,7 +30,7 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
   }
 
   defp create_event(_) do
-    event = event_fixture()
+    event = insert!(:elixir_conf_event)
     %{event: event}
   end
 
