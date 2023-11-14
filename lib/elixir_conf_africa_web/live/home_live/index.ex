@@ -4,7 +4,8 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
 
   def mount(_params, _session, socket) do
     elixir_conf_africa_event = Events.get_elixir_conf_event_and_ticket_types()
-    availabe_tickets = Events.get_number_of_tickets_available_for_elixir_conf_2024()
+    availabe_tickets = Events.get_number_of_tickets_available("ElixirConf Africa 2024")
+
 
     {:ok,
      socket
