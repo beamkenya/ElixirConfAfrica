@@ -28,24 +28,16 @@ defmodule ElixirConfAfrica.EventsTest do
       assert Events.get_event!(event.id) == event
     end
 
-    test "get_elixir_conf_event_and_ticket_types/0 returns the elixir conf event with ticket types",
+    test "get_event_with_ticket_types_by_event_name/1 returns the elixir conf event with ticket types",
          %{event: event} do
-      _ticket_type =
-        insert!(:elixir_conf_ticket_type, event_id: event.id)
-
-      assert Events.get_elixir_conf_event_and_ticket_types().ticket_types != []
-    end
-
-    test "get_all_available_tickets/0 returns the number of available tickets", %{event: event} do
       ticket_type =
         insert!(:elixir_conf_ticket_type, event_id: event.id)
 
-      assert Events.get_all_available_tickets(event.name) == ticket_type.number
-    end
+      event_with_ticket_types = ElixirConfAfrica.Repo.preload(event, :ticket_types)
+      assert event = Events.get_event_with_ticket_types_by_event_name(event.name)
 
-    test "get_elixir_conf_event /0 returns the elixir conf event", %{event: event} do
-      assert %{name: name} = Events.get_elixir_conf_event()
-      assert name == event.name
+      assert event_with_ticket_types.ticket_types == [ticket_type]
+      assert event == event_with_ticket_types
     end
 
     test "create_event/1 with valid data creates a event" do

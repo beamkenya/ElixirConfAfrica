@@ -17,7 +17,7 @@ defmodule ElixirConfAfrica.Factory do
     %ElixirConfAfrica.TicketTypes.TicketType{
       name: "some name",
       description: "some description",
-      price: 120.5,
+      price: Decimal.new("120.5"),
       number: 357
     }
   end

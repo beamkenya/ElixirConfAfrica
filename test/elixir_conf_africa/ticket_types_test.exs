@@ -15,13 +15,11 @@ defmodule ElixirConfAfrica.TicketTypesTest do
     end
 
     test "list_ticket_types/0 returns all ticket_types", %{ticket_type: ticket_type} do
-      assert [fetched_ticket_type] = TicketTypes.list_ticket_types()
-      assert ticket_type.id == fetched_ticket_type.id
+      assert [^ticket_type] = TicketTypes.list_ticket_types()
     end
 
     test "get_ticket_type!/1 returns the ticket_type with given id", %{ticket_type: ticket_type} do
-      assert fetched_ticket_type = TicketTypes.get_ticket_type!(ticket_type.id)
-      assert ticket_type.id == fetched_ticket_type.id
+      assert ^ticket_type = TicketTypes.get_ticket_type!(ticket_type.id)
     end
 
     test "create_ticket_type/1 with valid data creates a ticket_type", %{event: event} do

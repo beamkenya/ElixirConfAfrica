@@ -3,12 +3,17 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
   alias ElixirConfAfrica.Events
 
   def mount(_params, _session, socket) do
-    elixir_conf_africa_event = Events.get_elixir_conf_event_and_ticket_types()
-    availabe_tickets = Events.get_all_available_tickets("ElixirConf Africa 2024")
+    # these value are more static and we should find away of display this data to home page
+    event =
+      Events.get_event_with_ticket_types_by_event_name("ElixirConf Africa #{get_current_year()}")
 
     {:ok,
      socket
-     |> assign(:available_tickets, availabe_tickets)
-     |> assign(:event, elixir_conf_africa_event)}
+     |> assign(:event, event)}
+  end
+
+  defp get_current_year do
+    %{year: year} = DateTime.utc_now()
+    year
   end
 end

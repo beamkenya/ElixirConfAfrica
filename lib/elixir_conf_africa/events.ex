@@ -7,7 +7,6 @@ defmodule ElixirConfAfrica.Events do
   alias ElixirConfAfrica.Repo
 
   alias ElixirConfAfrica.Events.Event
-  alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
   Returns the list of events.
@@ -24,31 +23,14 @@ defmodule ElixirConfAfrica.Events do
 
   @doc """
   Returns the elixir conf event together with all its ticket types
-
-
-
   """
-
-  def get_elixir_conf_event_and_ticket_types do
-    get_elixir_conf_event()
-    |> Repo.preload(:ticket_types)
-  end
-
-  @doc """
-  Returns the elixir conf event .
-
-  """
-  @spec get_elixir_conf_event() :: any()
-  def get_elixir_conf_event do
-    Repo.get_by(Event, name: "ElixirConf Africa 2024")
-  end
-
-  def get_all_available_tickets(name) do
+  @spec get_event_with_ticket_types_by_event_name(String.t()) :: Event.t()
+  def get_event_with_ticket_types_by_event_name(name) do
     query =
-      from t in TicketType,
-        join: e in Event,
-        on: t.event_id == e.id and e.name == ^name,
-        select: sum(t.number)
+      from event in Event,
+        join: ticket_types in assoc(event, :ticket_types),
+        where: event.name == ^name,
+        preload: [ticket_types: ticket_types]
 
     Repo.one(query)
   end
