@@ -4,9 +4,10 @@ defmodule ElixirConfAfrica.Events do
   """
 
   import Ecto.Query, warn: false
-  alias ElixirConfAfrica.Repo
 
   alias ElixirConfAfrica.Events.Event
+  alias ElixirConfAfrica.Repo
+  alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
   Returns the list of events.
@@ -26,12 +27,26 @@ defmodule ElixirConfAfrica.Events do
   Returns the elixir conf event together with all its ticket types
   """
   @spec get_event_with_ticket_types_by_event_name(String.t()) :: Event.t()
-  def get_event_with_ticket_types_by_event_name(name) do
+  def get_event_with_ticket_types_by_event_name(event_name) do
     query =
       from event in Event,
         join: ticket_types in assoc(event, :ticket_types),
-        where: event.name == ^name,
+        where: event.name == ^event_name,
         preload: [ticket_types: ticket_types]
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Get totals number of available tickets for a given event
+  """
+  @spec get_total_number_of_available_tickets(String.t()) :: Event.t()
+  def get_total_number_of_available_tickets(event_name) do
+    query =
+      from t in TicketType,
+        join: e in Event,
+        on: t.event_id == e.id and e.name == ^event_name,
+        select: sum(t.number)
 
     Repo.one(query)
   end

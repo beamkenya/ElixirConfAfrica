@@ -95,5 +95,16 @@ defmodule ElixirConfAfrica.EventsTest do
     test "change_event/1 returns a event changeset", %{event: event} do
       assert %Ecto.Changeset{} = Events.change_event(event)
     end
+
+    test "get_total_number_of_available_tickets/1 returns total number of tickets", %{
+      event: event
+    } do
+      %{number: number} = insert!(:elixir_conf_ticket_type, event_id: event.id)
+      %{number: number1} = insert!(:elixir_conf_ticket_type, event_id: event.id)
+      total_number_of_available_tickets = number1 + number
+
+      assert Events.get_total_number_of_available_tickets(event.name) ==
+               total_number_of_available_tickets
+    end
   end
 end
