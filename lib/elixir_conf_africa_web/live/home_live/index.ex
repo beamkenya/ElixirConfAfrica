@@ -4,18 +4,25 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
   alias ElixirConfAfrica.TicketTypes
 
   def mount(_params, _session, socket) do
-    elixir_conf_africa_event = Events.get_elixir_conf_event_and_ticket_types()
-    availabe_tickets = Events.get_all_available_tickets()
+    event_name = "ElixirConf Africa #{get_current_year()}"
+
+    event =
+      Events.get_event_with_ticket_types_by_event_name(event_name)
+
+    available_ticket = Events.get_total_number_of_available_tickets(event_name)
+
     cart = []
     total_price = get_total_price(cart)
 
     {:ok,
      socket
-     |> assign(:available_tickets, availabe_tickets)
-     |> assign(:cart, cart)
-     |> assign(:total_price, total_price)
-     |> assign(:page_state, "details")
-     |> assign(:event, elixir_conf_africa_event)}
+     |> assign(:event, event)}
+    |> assign(available_ticket: available_ticket)
+  end
+
+  defp get_current_year do
+    %{year: year} = DateTime.utc_now()
+    year
   end
 
   def handle_event("add_to_cart", %{"id" => id}, socket) do

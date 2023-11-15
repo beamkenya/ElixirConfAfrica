@@ -2,7 +2,7 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import ElixirConfAfrica.EventsFixtures
+  import ElixirConfAfrica.Factory
 
   @create_attrs %{
     name: "some name",
@@ -29,14 +29,12 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
     end_date: nil
   }
 
-  defp create_event(_) do
-    event = event_fixture()
+  setup do
+    event = insert!(:elixir_conf_event)
     %{event: event}
   end
 
   describe "Index" do
-    setup [:create_event]
-
     test "lists all events", %{conn: conn, event: event} do
       {:ok, _index_live, html} = live(conn, ~p"/events")
 
@@ -99,8 +97,6 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
   end
 
   describe "Show" do
-    setup [:create_event]
-
     test "displays event", %{conn: conn, event: event} do
       {:ok, _show_live, html} = live(conn, ~p"/events/#{event}")
 
