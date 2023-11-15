@@ -2,8 +2,7 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import ElixirConfAfrica.TicketTypesFixtures
-  import ElixirConfAfrica.EventsFixtures
+  import ElixirConfAfrica.Factory
 
   @create_attrs %{
     name: "some name",
@@ -19,15 +18,13 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   }
   @invalid_attrs %{name: nil, description: nil, price: nil, number: nil}
 
-  defp create_ticket_type(_) do
-    event = event_fixture()
-    ticket_type = ticket_type_fixture(event_id: event.id)
-    %{ticket_type: ticket_type}
+  setup do
+    event = insert!(:elixir_conf_event)
+    ticket_type = insert!(:elixir_conf_ticket_type, event_id: event.id)
+    %{ticket_type: ticket_type, event: event}
   end
 
   describe "Index" do
-    setup [:create_ticket_type]
-
     test "lists all ticket_types", %{conn: conn, ticket_type: ticket_type} do
       {:ok, _index_live, html} = live(conn, ~p"/ticket_types")
 
@@ -35,9 +32,7 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
       assert html =~ ticket_type.name
     end
 
-    test "saves new ticket_type", %{conn: conn} do
-      event = event_fixture()
-
+    test "saves new ticket_type", %{conn: conn, event: event} do
       {:ok, index_live, _html} = live(conn, ~p"/ticket_types")
 
       assert index_live |> element("a", "New Ticket type") |> render_click() =~
@@ -97,8 +92,6 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   end
 
   describe "Show" do
-    setup [:create_ticket_type]
-
     test "displays ticket_type", %{conn: conn, ticket_type: ticket_type} do
       {:ok, _show_live, html} = live(conn, ~p"/ticket_types/#{ticket_type}")
 

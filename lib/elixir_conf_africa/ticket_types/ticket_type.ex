@@ -1,10 +1,10 @@
 defmodule ElixirConfAfrica.TicketTypes.TicketType do
   @moduledoc false
 
-  use Ecto.Schema
+  use TypedEctoSchema
   import Ecto.Changeset
 
-  schema "ticket_types" do
+  typed_schema "ticket_types" do
     field :name, :string
     field :description, :string
     field :price, :decimal

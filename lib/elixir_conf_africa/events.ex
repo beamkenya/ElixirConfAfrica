@@ -4,9 +4,9 @@ defmodule ElixirConfAfrica.Events do
   """
 
   import Ecto.Query, warn: false
-  alias ElixirConfAfrica.Repo
 
   alias ElixirConfAfrica.Events.Event
+  alias ElixirConfAfrica.Repo
   alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
@@ -18,24 +18,34 @@ defmodule ElixirConfAfrica.Events do
       [%Event{}, ...]
 
   """
+  @spec list_events() :: list()
   def list_events do
     Repo.all(from e in Event, order_by: [desc: e.id])
   end
 
-  def get_elixir_conf_event_and_ticket_types do
-    get_elixir_conf_event()
-    |> Repo.preload(:ticket_types)
+  @doc """
+  Returns the elixir conf event together with all its ticket types
+  """
+  @spec get_event_with_ticket_types_by_event_name(String.t()) :: Event.t()
+  def get_event_with_ticket_types_by_event_name(event_name) do
+    query =
+      from event in Event,
+        join: ticket_types in assoc(event, :ticket_types),
+        where: event.name == ^event_name,
+        preload: [ticket_types: ticket_types]
+
+    Repo.one(query)
   end
 
-  defp get_elixir_conf_event do
-    Repo.get_by(Event, name: "ElixirConf Africa 2024")
-  end
-
-  def get_all_available_tickets do
+  @doc """
+  Get totals number of available tickets for a given event
+  """
+  @spec get_total_number_of_available_tickets(String.t()) :: Event.t()
+  def get_total_number_of_available_tickets(event_name) do
     query =
       from t in TicketType,
         join: e in Event,
-        on: t.event_id == e.id and e.name == "ElixirConf Africa 2024",
+        on: t.event_id == e.id and e.name == ^event_name,
         select: sum(t.number)
 
     Repo.one(query)
@@ -55,6 +65,7 @@ defmodule ElixirConfAfrica.Events do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_event!(non_neg_integer()) :: Event.t() | Ecto.NoResultsError
   def get_event!(id), do: Repo.get!(Event, id)
 
   @doc """
@@ -69,6 +80,7 @@ defmodule ElixirConfAfrica.Events do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_event(map()) :: {:ok, Event.t()} | {:error, Ecto.Changeset.t()}
   def create_event(attrs \\ %{}) do
     %Event{}
     |> Event.changeset(attrs)
@@ -87,6 +99,7 @@ defmodule ElixirConfAfrica.Events do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_event(Event.t(), map()) :: {:ok, Event.t()} | {:error, Ecto.Changeset.t()}
   def update_event(%Event{} = event, attrs) do
     event
     |> Event.changeset(attrs)
@@ -105,6 +118,7 @@ defmodule ElixirConfAfrica.Events do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_event(Event.t()) :: {:ok, Event.t()} | {:error, Ecto.Changeset.t()}
   def delete_event(%Event{} = event) do
     Repo.delete(event)
   end
@@ -118,6 +132,7 @@ defmodule ElixirConfAfrica.Events do
       %Ecto.Changeset{data: %Event{}}
 
   """
+  @spec change_event(Event.t(), map()) :: Ecto.Changeset.t()
   def change_event(%Event{} = event, attrs \\ %{}) do
     Event.changeset(event, attrs)
   end
