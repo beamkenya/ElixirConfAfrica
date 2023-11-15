@@ -51,13 +51,14 @@ defmodule ElixirConfAfrica.TicketTypesTest do
         number: "579"
       }
 
-      assert {:ok, %TicketType{} = ticket_type} =
+      assert {:ok, %TicketType{} = update_ticket_type} =
                TicketTypes.update_ticket_type(ticket_type, update_attrs)
 
-      assert ticket_type.name == "some updated name"
-      assert ticket_type.description == "some updated description"
-      assert ticket_type.price == Decimal.new("456.7")
-      assert ticket_type.number == 579
+      refute ticket_type == update_ticket_type
+      assert update_ticket_type.name == "some updated name"
+      assert update_ticket_type.description == "some updated description"
+      assert update_ticket_type.price == Decimal.new("456.7")
+      assert update_ticket_type.number == 579
     end
 
     test "update_ticket_type/2 with invalid data returns error changeset", %{
@@ -66,8 +67,7 @@ defmodule ElixirConfAfrica.TicketTypesTest do
       assert {:error, %Ecto.Changeset{}} =
                TicketTypes.update_ticket_type(ticket_type, @invalid_attrs)
 
-      assert fetched_ticket_type = TicketTypes.get_ticket_type!(ticket_type.id)
-      assert ticket_type.updated_at == fetched_ticket_type.updated_at
+      assert ^ticket_type = TicketTypes.get_ticket_type!(ticket_type.id)
     end
 
     test "delete_ticket_type/1 deletes the ticket_type", %{ticket_type: ticket_type} do

@@ -1,10 +1,9 @@
 defmodule ElixirConfAfrica.Events.Event do
   @moduledoc false
-
-  use Ecto.Schema
+  use TypedEctoSchema
   import Ecto.Changeset
 
-  schema "events" do
+  typed_schema "events" do
     field :name, :string
     field :description, :string
     field :location, :string
