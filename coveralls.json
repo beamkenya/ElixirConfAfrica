@@ -1,7 +1,7 @@
 {
   
   "coverage_options": {
-    "minimum_coverage": 69.2
+    "minimum_coverage": 89.5
   },
   "skip_files": ["lib/elixir_conf_africa_web/components/core_components.ex"]
 }
