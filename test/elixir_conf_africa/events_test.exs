@@ -8,7 +8,7 @@ defmodule ElixirConfAfrica.EventsTest do
     alias ElixirConfAfrica.Events.Event
 
     @invalid_attrs %{
-      name: nil,
+      name: nil, 
       description: nil,
       location: nil,
       event_type: nil,

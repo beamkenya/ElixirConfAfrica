@@ -9,7 +9,7 @@ defmodule ElixirConfAfrica.Cart do
     cart |> Enum.map(fn cart_item -> cart_item.id end)
   end
 
-  def add_quantity_to_cart_item(cart_item, quantity) do
+  def increase_cart_item_quantity(cart_item, quantity) do
     cart_item
     |> Map.put(:quantity, quantity)
   end
@@ -47,13 +47,12 @@ defmodule ElixirConfAfrica.Cart do
   def add_quantity_to_cart_item(cart, cart_item, quantity) do
     case cart |> Enum.filter(fn item -> item.id == cart_item.id end) do
       [] ->
-        cart_item
-        |> Map.put(:quantity, quantity)
+        increase_cart_item_quantity(cart_item, quantity)
 
       _ ->
         cart
         |> Enum.filter(fn item -> item.id == cart_item.id end)
-        |> Enum.map(fn item -> add_quantity_to_cart_item(item, item.quantity + 1) end)
+        |> Enum.map(fn item -> increase_cart_item_quantity(item, item.quantity + 1) end)
         |> List.first()
     end
   end
