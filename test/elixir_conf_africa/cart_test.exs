@@ -37,8 +37,6 @@ defmodule ElixirConfAfrica.CartTest do
     end
 
     test "add_to_cart/2 adds an item to the cart", %{ticket_type: ticket_type} do
-      IO.inspect(ticket_type.id)
-
       assert Cart.add_to_cart([%{id: 1, quantity: 1}, %{id: 2, quantity: 1}], 1) ==
                [%{id: 2, quantity: 1}, %{id: 1, quantity: 2}]
 
