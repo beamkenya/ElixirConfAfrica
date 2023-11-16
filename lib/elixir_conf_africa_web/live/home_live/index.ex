@@ -1,7 +1,7 @@
 defmodule ElixirConfAfricaWeb.HomeLive.Index do
   use ElixirConfAfricaWeb, :live_view
   alias ElixirConfAfrica.Events
-  alias ElixirConfAfrica.TicketTypes
+
   alias ElixirConfAfrica.Cart
 
   def mount(_params, _session, socket) do
@@ -17,11 +17,6 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
      |> assign(:event, event)
      |> assign(:cart, [])
      |> assign(available_tickets: available_tickets)}
-  end
-
-  defp get_current_year do
-    %{year: year} = DateTime.utc_now()
-    year
   end
 
   defp get_upcoming_year do
