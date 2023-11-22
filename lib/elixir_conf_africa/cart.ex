@@ -32,16 +32,12 @@ defmodule ElixirConfAfrica.Cart do
   def add_to_cart(cart, cart_item_id) do
     cart_list_ids = cart_list_ids(cart)
 
-    case Enum.member?(cart_list_ids, cart_item_id) do
-      true ->
-        ticket_type = Enum.find(cart, fn item -> item.id == cart_item_id end)
-        updated_cart = get_updated_cart("in-cart", ticket_type, cart)
-        updated_cart
-
-      false ->
-        ticket_type = TicketTypes.get_ticket_type!(cart_item_id)
-        updated_cart = get_updated_cart("out-of-cart", ticket_type, cart)
-        updated_cart
+    if Enum.member?(cart_list_ids, cart_item_id) == true do
+      ticket_type = Enum.find(cart, fn item -> item.id == cart_item_id end)
+      get_updated_cart("in-cart", ticket_type, cart)
+    else
+      ticket_type = TicketTypes.get_ticket_type!(cart_item_id)
+      get_updated_cart("out-of-cart", ticket_type, cart)
     end
   end
 
