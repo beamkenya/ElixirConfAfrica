@@ -72,8 +72,6 @@
   </div>
 </div>
 
-<%!-- navbar --%>
-
 <div class=" bg-[#F2F2F2]/50 py-12 pt-5">
   <div class="w-[90%]  flex mx-auto">
     <div class="w-[100%]  flex md:flex-row gap-8 flex-col justify-between items-start">
@@ -124,7 +122,12 @@
               <div class="flex items-center justify-between w-[100%]">
                 <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
                 <div class="flex gap-3 poppins-regular items-center">
-                  <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
+                  <button
+                    phx-value-id={ticket_type.id}
+                    id={"ticket_type-#{ticket_type.id}"}
+                    phx-click="add_to_cart"
+                    class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]"
+                  >
                     <p>+</p>
                     <p>Cart</p>
                   </button>

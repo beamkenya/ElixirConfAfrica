@@ -22,6 +22,11 @@ defmodule ElixirConfAfrica.TicketTypes do
     Repo.all(TicketType)
   end
 
+  def add_quantity(ticket_type, quantity) do
+    ticket_type
+    |> Map.put(:quantity, quantity)
+  end
+
   @doc """
   Gets a single ticket_type.
 
