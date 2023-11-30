@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.TicketTypeLive.FormComponent do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_component
 
   alias ElixirConfAfrica.TicketTypes

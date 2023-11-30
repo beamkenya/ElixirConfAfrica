@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.EventLive.FormComponent do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_component
 
   alias ElixirConfAfrica.Events

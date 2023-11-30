@@ -4,8 +4,8 @@ defmodule ElixirConfAfrica.TicketTypes do
   """
 
   import Ecto.Query, warn: false
-  alias ElixirConfAfrica.Repo
 
+  alias ElixirConfAfrica.Repo
   alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
@@ -23,8 +23,7 @@ defmodule ElixirConfAfrica.TicketTypes do
   end
 
   def add_quantity(ticket_type, quantity) do
-    ticket_type
-    |> Map.put(:quantity, quantity)
+    Map.put(ticket_type, :quantity, quantity)
   end
 
   @doc """

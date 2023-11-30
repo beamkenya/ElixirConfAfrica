@@ -1,8 +1,9 @@
 defmodule ElixirConfAfricaWeb.HomeLive.Index do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_view
-  alias ElixirConfAfrica.Events
 
   alias ElixirConfAfrica.Cart
+  alias ElixirConfAfrica.Events
 
   def mount(_params, _session, socket) do
     event_name = "ElixirConf Africa #{get_upcoming_year()}"

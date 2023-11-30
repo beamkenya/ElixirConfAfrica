@@ -1,8 +1,8 @@
 defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
-  import Phoenix.LiveViewTest
   import ElixirConfAfrica.Factory
+  import Phoenix.LiveViewTest
 
   @create_attrs %{
     name: "some name",

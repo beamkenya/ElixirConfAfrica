@@ -2,6 +2,7 @@ defmodule ElixirConfAfrica.TicketTypes.TicketType do
   @moduledoc false
 
   use TypedEctoSchema
+
   import Ecto.Changeset
 
   typed_schema "ticket_types" do

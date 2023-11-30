@@ -4,9 +4,10 @@ defmodule ElixirConfAfrica.TicketTypesTest do
   alias ElixirConfAfrica.TicketTypes
 
   describe "ticket_types" do
+    import ElixirConfAfrica.Factory
+
     alias ElixirConfAfrica.TicketTypes.TicketType
 
-    import ElixirConfAfrica.Factory
     @invalid_attrs %{name: nil, description: nil, price: nil, number: nil}
     setup do
       event = insert!(:elixir_conf_event)

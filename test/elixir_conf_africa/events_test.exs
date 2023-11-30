@@ -1,11 +1,12 @@
 defmodule ElixirConfAfrica.EventsTest do
-   @moduledoc false
+  @moduledoc false
   use ElixirConfAfrica.DataCase
 
   alias ElixirConfAfrica.Events
 
   describe "events" do
     import ElixirConfAfrica.Factory
+
     alias ElixirConfAfrica.Events.Event
 
     @invalid_attrs %{

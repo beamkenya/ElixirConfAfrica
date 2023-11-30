@@ -1,5 +1,6 @@
 defmodule ElixirConfAfrica.CartTest do
   use ElixirConfAfrica.DataCase
+
   alias ElixirConfAfrica.Cart
 
   describe "Cart Functionaity" do
@@ -42,7 +43,7 @@ defmodule ElixirConfAfrica.CartTest do
 
       assert Cart.add_to_cart([%{id: 1, quantity: 1}, %{id: 2, quantity: 1}], ticket_type.id) ==
                [
-                 ticket_type |> Map.put(:quantity, 1),
+                 Map.put(ticket_type, :quantity, 1),
                  %{id: 1, quantity: 1},
                  %{id: 2, quantity: 1}
                ]

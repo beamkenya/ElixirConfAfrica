@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.TicketTypeLive.Index do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_view
 
   alias ElixirConfAfrica.TicketTypes
@@ -33,10 +34,7 @@ defmodule ElixirConfAfricaWeb.TicketTypeLive.Index do
   end
 
   @impl true
-  def handle_info(
-        {ElixirConfAfricaWeb.TicketTypeLive.FormComponent, {:saved, ticket_type}},
-        socket
-      ) do
+  def handle_info({ElixirConfAfricaWeb.TicketTypeLive.FormComponent, {:saved, ticket_type}}, socket) do
     {:noreply, stream_insert(socket, :ticket_types, ticket_type)}
   end
 
