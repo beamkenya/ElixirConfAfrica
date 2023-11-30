@@ -18,12 +18,12 @@ defmodule ElixirConfAfrica.DataCase do
 
   using do
     quote do
-      alias ElixirConfAfrica.Repo
-
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
       import ElixirConfAfrica.DataCase
+
+      alias ElixirConfAfrica.Repo
     end
   end
 

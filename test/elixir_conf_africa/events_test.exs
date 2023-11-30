@@ -1,4 +1,5 @@
 defmodule ElixirConfAfrica.EventsTest do
+   @moduledoc false
   use ElixirConfAfrica.DataCase
 
   alias ElixirConfAfrica.Events

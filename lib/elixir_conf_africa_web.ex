@@ -24,9 +24,10 @@ defmodule ElixirConfAfricaWeb do
       use Phoenix.Router, helpers: false
 
       # Import common connection and controller functions to use in pipelines
-      import Plug.Conn
+
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import Plug.Conn
     end
   end
 
@@ -42,8 +43,8 @@ defmodule ElixirConfAfricaWeb do
         formats: [:html, :json],
         layouts: [html: ElixirConfAfricaWeb.Layouts]
 
-      import Plug.Conn
       import ElixirConfAfricaWeb.Gettext
+      import Plug.Conn
 
       unquote(verified_routes())
     end
@@ -82,10 +83,10 @@ defmodule ElixirConfAfricaWeb do
   defp html_helpers do
     quote do
       # HTML escaping functionality
-      import Phoenix.HTML
       # Core UI components and translation
       import ElixirConfAfricaWeb.CoreComponents
       import ElixirConfAfricaWeb.Gettext
+      import Phoenix.HTML
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

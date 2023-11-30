@@ -1,8 +1,8 @@
 defmodule ElixirConfAfricaWeb.HomeLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
-  import Phoenix.LiveViewTest
   import ElixirConfAfrica.Factory
+  import Phoenix.LiveViewTest
 
   setup do
     event = insert!(:elixir_conf_event)

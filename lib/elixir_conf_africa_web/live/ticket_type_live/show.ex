@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.TicketTypeLive.Show do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_view
 
   alias ElixirConfAfrica.TicketTypes

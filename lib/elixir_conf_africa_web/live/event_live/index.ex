@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.EventLive.Index do
+  @moduledoc false
   use ElixirConfAfricaWeb, :live_view
 
   alias ElixirConfAfrica.Events
