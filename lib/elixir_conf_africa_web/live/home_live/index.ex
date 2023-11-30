@@ -29,12 +29,7 @@ defmodule ElixirConfAfricaWeb.HomeLive.Index do
     cart_item_ids = Cart.cart_list_ids(socket.assigns.cart)
 
     if Enum.member?(cart_item_ids, String.to_integer(id)) do
-      updated_cart = Cart.add_to_cart(socket.assigns.cart, String.to_integer(id))
-
-      {:noreply,
-       socket
-       |> assign(:cart, updated_cart)
-       |> put_flash(:info, "Ticket already in cart , quantity increased by 1")}
+      {:noreply, put_flash(socket, :error, "Ticket already in cart")}
     else
       updated_cart = Cart.add_to_cart(socket.assigns.cart, String.to_integer(id))
 

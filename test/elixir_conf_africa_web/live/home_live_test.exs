@@ -53,7 +53,7 @@ defmodule ElixirConfAfricaWeb.HomeLiveTest do
 
       assert index_live
              |> element("#ticket_type-#{ticket_type.id}")
-             |> render_click() =~ "Ticket already in cart , quantity increased by 1"
+             |> render_click() =~ "Ticket already in cart"
     end
   end
 end
