@@ -1,4 +1,5 @@
 defmodule ElixirConfAfricaWeb.UserAuth do
+  @moduledoc false
   use ElixirConfAfricaWeb, :verified_routes
 
   import Plug.Conn

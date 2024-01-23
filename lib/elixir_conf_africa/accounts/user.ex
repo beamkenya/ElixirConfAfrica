@@ -1,4 +1,5 @@
 defmodule ElixirConfAfrica.Accounts.User do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 

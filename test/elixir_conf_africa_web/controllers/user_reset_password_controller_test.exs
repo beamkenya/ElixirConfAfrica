@@ -104,7 +104,7 @@ defmodule ElixirConfAfricaWeb.UserResetPasswordControllerTest do
       conn =
         put(conn, ~p"/users/reset_password/#{token}", %{
           "user" => %{
-            "password" => "too short",
+            "password" => "short",
             "password_confirmation" => "does not match"
           }
         })

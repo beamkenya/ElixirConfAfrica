@@ -1,4 +1,5 @@
 defmodule ElixirConfAfrica.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias ElixirConfAfrica.Mailer

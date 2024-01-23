@@ -33,7 +33,7 @@ defmodule ElixirConfAfricaWeb.TicketTypeLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Ticket type updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_redirect(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -46,7 +46,7 @@ defmodule ElixirConfAfricaWeb.TicketTypeLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Ticket type created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_redirect(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

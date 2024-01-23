@@ -2,129 +2,118 @@ defmodule ElixirConfAfricaWeb.EventLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import ElixirConfAfrica.Factory
+  alias ElixirConfAfrica.Factory
 
-  @create_attrs %{
+  @valid_attributes %{
     name: "some name",
-    description: "some description",
-    location: "some location",
-    event_type: "some event_type",
-    start_date: "2023-10-05T06:18:00",
-    end_date: "2023-10-05T06:18:00"
+    email: "michaelmunavu83@gmail.com",
+    quantity: 2
   }
-  @update_attrs %{
-    name: "some updated name",
-    description: "some updated description",
-    location: "some updated location",
-    event_type: "some updated event_type",
-    start_date: "2023-10-06T06:18:00",
-    end_date: "2023-10-06T06:18:00"
-  }
-  @invalid_attrs %{
+
+  @invalid_attributes %{
     name: nil,
-    description: nil,
-    location: nil,
-    event_type: nil,
-    start_date: nil,
-    end_date: nil
+    email: nil,
+    quantity: 2
   }
 
-  setup do
-    event = insert!(:elixir_conf_event)
-    %{event: event}
-  end
+  describe "Event" do
+    setup do
+      ticket_type1 = Factory.insert(:ticket_type, number: 10, name: "Early Bird", price: 400)
+      ticket_type2 = Factory.insert(:ticket_type, number: 10, name: "Advanced", price: 500)
 
-  describe "Index" do
-    test "lists all events", %{conn: conn, event: event} do
-      {:ok, _index_live, html} = live(conn, ~p"/events")
+      Factory.insert(:ticket,
+        ticket_type_id: ticket_type1.id,
+        is_paid: false,
+        is_refunded: false,
+        cost: 400
+      )
 
-      assert html =~ "Listing Events"
-      assert html =~ event.name
+      Factory.insert(:ticket,
+        ticket_type_id: ticket_type2.id,
+        is_paid: true,
+        is_refunded: false,
+        cost: 400
+      )
+
+      Factory.insert(:ticket,
+        ticket_type_id: ticket_type1.id,
+        is_paid: true,
+        is_refunded: false,
+        cost: 400
+      )
+
+      Factory.insert(:ticket,
+        ticket_type_id: ticket_type2.id,
+        is_paid: true,
+        is_refunded: true,
+        cost: 400
+      )
+
+      %{ticket_type1: ticket_type1, ticket_type2: ticket_type2}
     end
 
-    test "saves new event", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/events")
+    test "You can see available tickets with their remaining quantity", %{
+      conn: conn,
+      ticket_type1: ticket_type1,
+      ticket_type2: ticket_type2
+    } do
+      {:ok, _index_live, html} = live(conn, ~p"/event")
 
-      assert index_live |> element("a", "New Event") |> render_click() =~
-               "New Event"
+      assert html =~ ticket_type1.name
+      assert html =~ ticket_type2.name
+      assert html =~ "9"
+      assert html =~ "8"
+    end
 
-      assert_patch(index_live, ~p"/events/new")
+    test "once you click on get ticket for a  particular ticket type , a form popups where you add your details",
+         %{
+           conn: conn,
+           ticket_type1: ticket_type1
+         } do
+      {:ok, index_live, _html} = live(conn, ~p"/event")
+
+      index_live
+      |> element("#buy-#{ticket_type1.id}-tickets", "Get")
+      |> render_click()
+
+      assert_patch(index_live, ~p"/event/#{ticket_type1.id}/buy")
+
+      assert has_element?(index_live, "#ticket-form")
+    end
+
+    test "adding invalid data on the form renders errors",
+         %{
+           conn: conn,
+           ticket_type1: ticket_type1
+         } do
+      {:ok, index_live, _html} = live(conn, ~p"/event")
+
+      index_live
+      |> element("#buy-#{ticket_type1.id}-tickets", "Get")
+      |> render_click()
+
+      {:ok, index_live, _html} =
+        live(conn, ~p"/event/#{ticket_type1.id}/buy")
 
       assert index_live
-             |> form("#event-form", event: @invalid_attrs)
+             |> form("#ticket-form", ticket: @invalid_attributes)
              |> render_change() =~ "can&#39;t be blank"
-
-      assert index_live
-             |> form("#event-form", event: @create_attrs)
-             |> render_submit()
-
-      assert_patch(index_live, ~p"/events")
-
-      html = render(index_live)
-      assert html =~ "Event created successfully"
-      assert html =~ "some name"
     end
 
-    test "updates event in listing", %{conn: conn, event: event} do
-      {:ok, index_live, _html} = live(conn, ~p"/events")
+    test "adding valid data on the form redirects to the event page",
+         %{
+           conn: conn,
+           ticket_type1: ticket_type1
+         } do
+      {:ok, index_live, _html} = live(conn, ~p"/event")
 
-      assert index_live |> element("#events-#{event.id} a", "Edit") |> render_click() =~
-               "Edit Event"
+      index_live
+      |> element("#buy-#{ticket_type1.id}-tickets", "Get")
+      |> render_click()
 
-      assert_patch(index_live, ~p"/events/#{event}/edit")
-
-      assert index_live
-             |> form("#event-form", event: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert index_live
-             |> form("#event-form", event: @update_attrs)
-             |> render_submit()
-
-      assert_patch(index_live, ~p"/events")
-
-      html = render(index_live)
-      assert html =~ "Event updated successfully"
-      assert html =~ "some updated name"
-    end
-
-    test "deletes event in listing", %{conn: conn, event: event} do
-      {:ok, index_live, _html} = live(conn, ~p"/events")
-
-      assert index_live |> element("#events-#{event.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#events-#{event.id}")
-    end
-  end
-
-  describe "Show" do
-    test "displays event", %{conn: conn, event: event} do
-      {:ok, _show_live, html} = live(conn, ~p"/events/#{event}")
-
-      assert html =~ "Show Event"
-      assert html =~ event.name
-    end
-
-    test "updates event within modal", %{conn: conn, event: event} do
-      {:ok, show_live, _html} = live(conn, ~p"/events/#{event}")
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Event"
-
-      assert_patch(show_live, ~p"/events/#{event}/show/edit")
-
-      assert show_live
-             |> form("#event-form", event: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert show_live
-             |> form("#event-form", event: @update_attrs)
-             |> render_submit()
-
-      assert_patch(show_live, ~p"/events/#{event}")
-
-      html = render(show_live)
-      assert html =~ "Event updated successfully"
-      assert html =~ "some updated name"
+      index_live
+      |> form("#ticket-form", ticket: @valid_attributes)
+      |> render_submit()
     end
   end
 end

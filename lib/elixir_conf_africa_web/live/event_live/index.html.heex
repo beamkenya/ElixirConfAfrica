@@ -44,8 +44,8 @@
                 <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
                 <div class="flex gap-3 poppins-regular items-center">
                   <.link
-                    navigate={~p"/event/#{ticket_type.id}/buy"}
-                    id="buy-#{ticket_type.id}-tickets"
+                    patch={~p"/event/#{ticket_type.id}/buy"}
+                    id={"buy-#{ticket_type.id}-tickets"}
                   >
                     <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
                       Get

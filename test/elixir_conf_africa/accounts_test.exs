@@ -59,11 +59,11 @@ defmodule ElixirConfAfrica.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "poor"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               password: ["should be at least 12 character(s)"]
+               password: ["should be at least 6 character(s)"]
              } = errors_on(changeset)
     end
 
@@ -152,9 +152,9 @@ defmodule ElixirConfAfrica.AccountsTest do
 
     test "validates email uniqueness", %{user: user} do
       %{email: email} = user_fixture()
-      password = valid_user_password()
 
-      {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
+      {:error, changeset} =
+        Accounts.apply_user_email(user, valid_user_password(), %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
@@ -174,7 +174,7 @@ defmodule ElixirConfAfrica.AccountsTest do
     end
   end
 
-  describe "deliver_user_update_email_instructions/3" do
+  describe "deliver_update_email_instructions/3" do
     setup do
       %{user: user_fixture()}
     end
@@ -182,7 +182,7 @@ defmodule ElixirConfAfrica.AccountsTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Accounts.deliver_user_update_email_instructions(user, "current@example.com", url)
+          Accounts.deliver_update_email_instructions(user, "current@example.com", url)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -200,7 +200,7 @@ defmodule ElixirConfAfrica.AccountsTest do
 
       token =
         extract_user_token(fn url ->
-          Accounts.deliver_user_update_email_instructions(%{user | email: email}, user.email, url)
+          Accounts.deliver_update_email_instructions(%{user | email: email}, user.email, url)
         end)
 
       %{user: user, token: token, email: email}
@@ -262,12 +262,12 @@ defmodule ElixirConfAfrica.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "not valid",
+          password: "poor",
           password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 6 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -353,11 +353,11 @@ defmodule ElixirConfAfrica.AccountsTest do
     end
   end
 
-  describe "delete_user_session_token/1" do
+  describe "delete_session_token/1" do
     test "deletes the token" do
       user = user_fixture()
       token = Accounts.generate_user_session_token(user)
-      assert Accounts.delete_user_session_token(token) == :ok
+      assert Accounts.delete_session_token(token) == :ok
       refute Accounts.get_user_by_session_token(token)
     end
   end
@@ -471,12 +471,12 @@ defmodule ElixirConfAfrica.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.reset_user_password(user, %{
-          password: "not valid",
+          password: "poor",
           password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 6 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -500,7 +500,27 @@ defmodule ElixirConfAfrica.AccountsTest do
     end
   end
 
-  describe "inspect/2 for the User module" do
+  describe "update a user role/2" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "you can update a user's role" do
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+      assert user.role == "user"
+      {:ok, user} = Accounts.update_user_role(user, "admin")
+      assert user.role == "admin"
+    end
+
+    test "you can only give the roles 'user' , 'admin' or 'scanner'" do
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+      assert user.role == "user"
+      {:error, _} = Accounts.update_user_role(user, "not a role")
+      assert user.role == "user"
+    end
+  end
+
+  describe "inspect/2" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end

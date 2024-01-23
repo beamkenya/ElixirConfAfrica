@@ -69,7 +69,7 @@ defmodule ElixirConfAfrica.MixProject do
       {:typed_ecto_schema, "~> 0.4.1"},
       {:ex_machina, "~> 2.7.0"},
       {:httpoison, "~> 2.1"},
-      {:styler, "~> 0.11", only: [:dev, :test], runtime: false},
+      {:styler, "~> 0.11", only: [:dev, :test], runtime: false}
     ]
   end
 

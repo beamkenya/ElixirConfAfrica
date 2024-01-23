@@ -3,7 +3,7 @@
     Listing Ticket types
     <:actions>
       <.link patch={~p"/ticket_types/new"}>
-        <.button>New Ticket type</.button>
+        <.button>New Ticket Type</.button>
       </.link>
     </:actions>
   </.header>
@@ -43,7 +43,12 @@
 
         <td>
           <div class="flex justify-center items-center gap-2">
-            <.link patch={~p"/ticket_types/#{ticket_type}/edit"}>Edit</.link>
+            <.link
+              id={"ticket_types-#{ticket_type.id}"}
+              patch={~p"/ticket_types/#{ticket_type}/edit"}
+            >
+              Edit
+            </.link>
 
             <span>
               <.link
