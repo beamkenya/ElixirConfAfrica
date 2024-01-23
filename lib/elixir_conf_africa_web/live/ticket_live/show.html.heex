@@ -1,0 +1,57 @@
+<div
+  class="w-[100%]  flex justify-center items-center text-white md:text-6xl text-2xl font-bold   h-[164px]"
+  style="background-image: url('/images/elixirconfbg.png'); background-size: cover; background-position: center;"
+>
+  ElixirConf Africa 2024
+</div>
+
+<div class=" bg-[#F2F2F2]/50 flex justify-center items-center h-[60vh] pt-5">
+  <div class="w-[55%] mx-auto md:h-[300px] bg-[#202020] relative rounded-[12px]">
+    <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
+      <img src="/images/backlogo.svg" class="w-[150px] object-cover h-[150px]" alt="" />
+    </p>
+    <div class="w-[100%] h-[100%] flex  md:flex-row flex-col justify-between ">
+      <div class="md:w-[20%] w-[100%] flex md:justify-center justify-between items-center p-2 md:p-4">
+        <img src="/images/regularticket.svg" class="w-[136px] h-[90px] object-cover" />
+        <p class="text-[#C89301] md:hidden md:text-3xl text-2xl poppins-bold ">
+          Elixir Safari
+        </p>
+      </div>
+      <div class="md:w-[50%] h-[100%] flex flex-col justify-between p-4">
+        <p class="text-[#C89301] text-3xl poppins-bold ">
+          Elixir Safari
+        </p>
+        <div class="flex text-white gap-5 flex-col w-[100%">
+          <div class="flex text-white flex-col gap-2">
+            <div class="flex gap-1">
+              <p class="uppercase poppins-regular">Name:</p>
+              <p class="uppercase  poppins-light"><%= @ticket.name %></p>
+            </div>
+            <div class="flex gap-1">
+              <%= @ticket.email %>
+            </div>
+          </div>
+          <div class="w-[100%] poppins-light flex justify-between uppercase items-center">
+            <p>20th June 2024</p>
+            <p class="bg-white h-[1px] w-[10px] " />
+            <p>20th June 2024</p>
+          </div>
+        </div>
+        <div class="w-[100%] poppins-regular flex justify-between">
+          <p class="uppercase text-sm bg-white p-2 font-semibold  ">
+            Ticket Value
+          </p>
+          <p class="uppercase text-xs flex justify-center items-center  p-2 bg-[#C89301] text-white font-semibold  ">
+            <%= @ticket.ticket_type.name %>
+          </p>
+        </div>
+      </div>
+      <div class=" md:w-[20%] border-l-[1px] border-[#C89301] border-dashed flex justify-center items-center p-4">
+        <div class=" bg-[#1F2024] p-2  flex flex-col   justify-center  items-center  ">
+          <div phx-hook="QrCode" id="qrcode" class="bg-white p-2 rounded-md  " />
+          <input class="hidden" id="ticketid" value={@ticket.ticketid} />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<main>
+  <.flash_group flash={@flash} />
+  <div class=" m-4 p-8 fixed    shadow-md rounded-b-md   shadow-[#AD3989] flex flex-col gap-4  h-[80vh]">
+    <p class=" text-xl">
+      Dashboard
+    </p>
+    <.link navigate={~p"/ticket_types"}>
+      <p class=" text-xl">
+        Ticket Types
+      </p>
+    </.link>
+    <.link navigate={~p"/tickets/paid"}>
+      <p class=" text-xl">
+        Paid Tickets
+      </p>
+    </.link>
+
+    <.link navigate={~p"/tickets/unpaid"}>
+      <p class=" text-xl">
+        UnPaid Tickets
+      </p>
+    </.link>
+    <.link navigate={~p"/tickets/refunded"}>
+      <p class=" text-xl">
+        Refunded Tickets
+      </p>
+    </.link>
+
+    <.link navigate={~p"/transactions"}>
+      <p class=" text-xl">
+        Transactions
+      </p>
+    </.link>
+    <.link navigate={~p"/users"}>
+      <p class=" text-xl">
+        Users
+      </p>
+    </.link>
+
+    <.link href={~p"/users/log_out"} method="delete">
+      <p class="text-xl">
+        Log out
+      </p>
+    </.link>
+  </div>
+
+  <div class="ml-[250px] p-4">
+    <%= @inner_content %>
+  </div>
+</main>

@@ -1,0 +1,34 @@
+<div class="h-[80vh] flex flex-col justify-center items-center gap-4 ">
+  <%= if @success == true do %>
+    <div class="p-8 shadow-sm text-center shadow-black/40 flex flex-col gap-4 justify-center items-center w-[50%] rounded-md">
+      <i class="fa fa-check text-[#2F974C] -rotate-6" aria-hidden="true" style="font-size: 120px">
+      </i>
+      <p class="text-[#2F974C] font-bold text-2xl">
+        Payment  Successful
+      </p>
+      <p>
+        Thank you for your purchase , we have sent  you your ticket via email , you can also view it here
+      </p>
+      <.link navigate={~p"/tickets/#{@ticket.ticketid}"}>
+        <button class="bg-[#AD3989] text-white px-2 py-3 rounded-md hover:scale-105 transition-all ease-in-out duration-500">
+          View Ticket
+        </button>
+      </.link>
+    </div>
+  <% else %>
+    <div class="p-8 shadow-sm text-center shadow-black/40 flex flex-col gap-4 justify-center items-center w-[50%] rounded-md">
+      <i class="fa fa-times text-red-500 " aria-hidden="true" style="font-size: 120px"></i>
+      <p class="text-red-500 font-bold text-2xl">
+        Payment Unsuccessful
+      </p>
+      <p>
+        Payment was unsuccessful , go back to the tickets and purchase
+      </p>
+      <.link navigate={~p"/event"}>
+        <button class="bg-[#AD3989] text-white px-2 py-3 rounded-md hover:scale-105 transition-all ease-in-out duration-500">
+          Back to Tickets Page
+        </button>
+      </.link>
+    </div>
+  <% end %>
+</div>

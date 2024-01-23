@@ -1,15 +1,14 @@
 defmodule ElixirConfAfrica.TicketTypes.TicketType do
   @moduledoc false
-
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "ticket_types" do
+  schema "ticket_types" do
     field :name, :string
     field :description, :string
-    field :price, :decimal
+    field :price, :integer
     field :number, :integer
-    belongs_to :event, ElixirConfAfrica.Events.Event
+    has_many :tickets, ElixirConfAfrica.Tickets.Ticket
 
     timestamps()
   end
@@ -17,8 +16,8 @@ defmodule ElixirConfAfrica.TicketTypes.TicketType do
   @doc false
   def changeset(ticket_type, attrs) do
     ticket_type
-    |> cast(attrs, [:event_id, :name, :description, :price, :number])
-    |> validate_required([:event_id, :name, :description, :price, :number])
-    |> foreign_key_constraint(:event_id)
+    |> cast(attrs, [:name, :description, :price, :number])
+    |> validate_required([:name, :description, :price, :number])
+    |> unique_constraint(:name)
   end
 end

@@ -43,6 +43,7 @@ defmodule ElixirConfAfrica.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.7"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
@@ -65,7 +66,10 @@ defmodule ElixirConfAfrica.MixProject do
       {:credo, "~> 1.7", only: :dev, runtime: false},
       {:excoveralls, "~> 0.18.0", only: :test},
       {:faker, "~> 0.17.0", only: [:dev, :test], runtime: false},
-      {:typed_ecto_schema, "~> 0.4.1"}
+      {:typed_ecto_schema, "~> 0.4.1"},
+      {:ex_machina, "~> 2.7.0"},
+      {:httpoison, "~> 2.1"},
+      {:styler, "~> 0.11", only: [:dev, :test], runtime: false}
     ]
   end
 

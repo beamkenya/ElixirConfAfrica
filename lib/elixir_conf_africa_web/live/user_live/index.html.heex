@@ -1,0 +1,65 @@
+<div class="flex flex-col gap-2">
+  <div class="flex w-[100%] justify-between items-center">
+    <h1 class="font-2xl font-semibold">Listing Users</h1>
+  </div>
+
+  <table class="w-[100%]">
+    <thead>
+      <tr>
+        <th class="font-normal">Email</th>
+        <th class="font-normal">Role</th>
+        <th class="font-normal">Admin action</th>
+        <th class="font-normal">User action</th>
+        <th class="font-normal">Scanner action</th>
+      </tr>
+    </thead>
+    <tbody class="text-center p-2">
+      <%= for user <- @users do %>
+        <tr id={"user-#{user.id}"}>
+          <td class="py-2"><%= user.email %></td>
+
+          <td class="py-2" id={"role-#{user.id}"}><%= user.role %></td>
+          <td class="py-2">
+            <%= if user.role != "admin" do %>
+              <button
+                phx-click="change_role"
+                phx-value-email={user.email}
+                phx-value-role="admin"
+                class="bg-[#AD3989] border rounded-lg p-2 text-white"
+                id={"make-admin-#{user.id}"}
+              >
+                Make Admin
+              </button>
+            <% end %>
+          </td>
+          <td class="py-2">
+            <%= if user.role != "user" do %>
+              <button
+                phx-click="change_role"
+                phx-value-email={user.email}
+                phx-value-role="user"
+                id={"make-user-#{user.id}"}
+                class="bg-[#AD3989] border rounded-lg p-2 text-white"
+              >
+                Make User
+              </button>
+            <% end %>
+          </td>
+          <td class="py-2">
+            <%= if user.role != "scanner" do %>
+              <button
+                phx-click="change_role"
+                phx-value-email={user.email}
+                id={"make-scanner-#{user.id}"}
+                phx-value-role="scanner"
+                class="bg-[#AD3989] border rounded-lg p-2 text-white"
+              >
+                Make Scanner
+              </button>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

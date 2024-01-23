@@ -1,12 +1,12 @@
 defmodule ElixirConfAfricaWeb.EventLive.Index do
   use ElixirConfAfricaWeb, :live_view
 
-  alias ElixirConfAfrica.Events
-  alias ElixirConfAfrica.Events.Event
-
+  alias ElixirConfAfrica.Tickets.Ticket
+  alias ElixirConfAfrica.TicketTypes
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :events, Events.list_events())}
+    ticket_types = TicketTypes.list_ticket_types_with_remaining_tickets()
+    {:ok, assign(socket, :ticket_types, ticket_types)}
   end
 
   @impl true
@@ -14,34 +14,17 @@ defmodule ElixirConfAfricaWeb.EventLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Event")
-    |> assign(:event, Events.get_event!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Event")
-    |> assign(:event, %Event{})
-  end
-
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Events")
-    |> assign(:event, nil)
+    |> assign(:page_title, "ElixirConf Africa 2024")
   end
 
-  @impl true
-  def handle_info({ElixirConfAfricaWeb.EventLive.FormComponent, {:saved, event}}, socket) do
-    {:noreply, stream_insert(socket, :events, event)}
-  end
+  defp apply_action(socket, :ticket, params) do
+    ticket_type = TicketTypes.get_ticket_type!(params["ticket_type_id"])
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    event = Events.get_event!(id)
-    {:ok, _} = Events.delete_event(event)
-
-    {:noreply, stream_delete(socket, :events, event)}
+    socket
+    |> assign(:page_title, "#{ticket_type.name} Ticket")
+    |> assign(:ticket_type, ticket_type)
+    |> assign(:ticket, %Ticket{})
   end
 end

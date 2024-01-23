@@ -1,0 +1,63 @@
+<div class="flex justify-between items-center">
+  <h1 class="text-2xl font-bold">Listing Unpaid Tickets</h1>
+</div>
+
+<table class="w-[100%] mt-4">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Ticket id</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="p-2 text-center " id="ticket">
+    <%= for ticket <- @ticket_collection do %>
+      <tr
+        id={"ticket-#{ticket.id}"}
+        class={
+          "py-2 my-2 #{if ticket.payment_status == "incorrect", do: "bg-red-100", else: "bg-white"}"
+        }
+      >
+        <td class="py-2"><%= ticket.name %></td>
+        <td><%= ticket.email %></td>
+        <td><%= ticket.ticketid %></td>
+        <td><%= ticket.quantity %></td>
+        <td><%= ticket.cost %> KSH /=</td>
+        <td><%= ticket.ticket_type.name %></td>
+
+        <td>
+          <%= if ticket.payment_status == "correct" do %>
+            <div class="flex justify-center items-center p-2 bg-green-500 text-white rounded-md ">
+              Correct
+            </div>
+          <% else %>
+            <div class="flex justify-center items-center bg-red-500 text-white  p-2 rounded-md ">
+              Incorrect
+            </div>
+          <% end %>
+        </td>
+
+        <td>
+          <%= if ticket.payment_status == "incorrect" do %>
+            <div class="flex justify-center items-center p-2 rounded-md ">
+              <button
+                class="bg-green-500 text-white p-2 rounded-md"
+                phx-click="update_and_send_ticket"
+                phx-value-ticketid={ticket.ticketid}
+              >
+                Update and send
+              </button>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

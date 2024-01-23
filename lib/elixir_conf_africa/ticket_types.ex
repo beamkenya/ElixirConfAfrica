@@ -6,6 +6,7 @@ defmodule ElixirConfAfrica.TicketTypes do
   import Ecto.Query, warn: false
   alias ElixirConfAfrica.Repo
 
+  alias ElixirConfAfrica.Tickets.Ticket
   alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
@@ -17,9 +18,31 @@ defmodule ElixirConfAfrica.TicketTypes do
       [%TicketType{}, ...]
 
   """
-  @spec list_ticket_types() :: list()
   def list_ticket_types do
     Repo.all(TicketType)
+  end
+
+  @doc """
+  Returns the list of ticket_types with the remaining tickets.
+
+
+  """
+
+  def list_ticket_types_with_remaining_tickets do
+    Repo.all(
+      from(tick in TicketType,
+        left_join: t in Ticket,
+        on: t.ticket_type_id == tick.id and t.is_paid == true and t.is_refunded == false,
+        group_by: tick.id,
+        select: %{
+          id: tick.id,
+          name: tick.name,
+          remaining_tickets: coalesce(tick.number - count(t.id), 0),
+          description: tick.description,
+          price: tick.price
+        }
+      )
+    )
   end
 
   @doc """
@@ -36,7 +59,6 @@ defmodule ElixirConfAfrica.TicketTypes do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_ticket_type!(non_neg_integer()) :: TicketType.t() | Ecto.NoResultsError
   def get_ticket_type!(id), do: Repo.get!(TicketType, id)
 
   @doc """
@@ -51,7 +73,6 @@ defmodule ElixirConfAfrica.TicketTypes do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec create_ticket_type(map()) :: {:ok, TicketType.t()} | {:error, Ecto.Changeset.t()}
   def create_ticket_type(attrs \\ %{}) do
     %TicketType{}
     |> TicketType.changeset(attrs)
@@ -70,8 +91,6 @@ defmodule ElixirConfAfrica.TicketTypes do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec update_ticket_type(TicketType.t(), map()) ::
-          {:ok, TicketType.t()} | {:error, Ecto.Changeset.t()}
   def update_ticket_type(%TicketType{} = ticket_type, attrs) do
     ticket_type
     |> TicketType.changeset(attrs)
@@ -90,7 +109,6 @@ defmodule ElixirConfAfrica.TicketTypes do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec delete_ticket_type(TicketType.t()) :: {:ok, TicketType.t()} | {:error, Ecto.Changeset.t()}
   def delete_ticket_type(%TicketType{} = ticket_type) do
     Repo.delete(ticket_type)
   end
@@ -104,7 +122,6 @@ defmodule ElixirConfAfrica.TicketTypes do
       %Ecto.Changeset{data: %TicketType{}}
 
   """
-  @spec change_ticket_type(TicketType.t(), map()) :: Ecto.Changeset.t()
   def change_ticket_type(%TicketType{} = ticket_type, attrs \\ %{}) do
     TicketType.changeset(ticket_type, attrs)
   end

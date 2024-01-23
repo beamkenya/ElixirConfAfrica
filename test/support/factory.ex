@@ -1,32 +1,32 @@
 defmodule ElixirConfAfrica.Factory do
   @moduledoc false
-  alias ElixirConfAfrica.Repo
+  use ExMachina.Ecto, repo: ElixirConfAfrica.Repo
+  alias ElixirConfAfrica.Accounts.User
+  alias ElixirConfAfrica.Tickets.Ticket
+  alias ElixirConfAfrica.TicketTypes.TicketType
 
-  def build(:elixir_conf_event) do
-    %ElixirConfAfrica.Events.Event{
-      name: "ElixirConf Africa 2024",
-      description: "description",
-      location: "location",
-      event_type: "event_type",
-      start_date: ~N[2023-10-05 06:18:00],
-      end_date: ~N[2023-10-05 06:18:00]
-    }
-  end
-
-  def build(:elixir_conf_ticket_type) do
-    %ElixirConfAfrica.TicketTypes.TicketType{
+  def ticket_type_factory do
+    %TicketType{
       name: "some name",
       description: "some description",
-      price: Decimal.new("120.5"),
-      number: 357
+      price: 42,
+      number: 49
     }
   end
 
-  def build(factory_name, attributes) do
-    factory_name |> build() |> struct!(attributes)
+  def ticket_factory do
+    %Ticket{
+      ticketid: Integer.to_string(System.unique_integer([:positive])),
+      email: sequence(:email, fn n -> "email-#{n}@example" end),
+      cost: 400,
+      quantity: 1
+    }
   end
 
-  def insert!(factory_name, attributes \\ []) do
-    factory_name |> build(attributes) |> Repo.insert!()
+  def user_factory do
+    %User{
+      email: "some email",
+      password: "some password"
+    }
   end
 end

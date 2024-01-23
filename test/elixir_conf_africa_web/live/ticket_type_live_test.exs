@@ -2,29 +2,34 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
   use ElixirConfAfricaWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import ElixirConfAfrica.Factory
 
-  @create_attrs %{
-    name: "some name",
-    description: "some description",
-    price: "120.5",
-    number: "357"
-  }
+  alias ElixirConfAfrica.Factory
+
   @update_attrs %{
     name: "some updated name",
     description: "some updated description",
-    price: "456.7",
-    number: "579"
+    price: 43,
+    number: 50
   }
-  @invalid_attrs %{name: nil, description: nil, price: nil, number: nil}
-
-  setup do
-    event = insert!(:elixir_conf_event)
-    ticket_type = insert!(:elixir_conf_ticket_type, event_id: event.id)
-    %{ticket_type: ticket_type, event: event}
-  end
+  @invalid_attrs %{name: nil, description: nil, price: nil}
 
   describe "Index" do
+    setup %{conn: conn} do
+      # sign up first
+      conn =
+        post(conn, ~p"/users/register",
+          method: :create,
+          user: %{email: "admin@gmail.com", password: "123456", role: "admin"}
+        )
+
+      ticket_type = Factory.insert(:ticket_type)
+
+      [
+        ticket_type: ticket_type,
+        conn: conn
+      ]
+    end
+
     test "lists all ticket_types", %{conn: conn, ticket_type: ticket_type} do
       {:ok, _index_live, html} = live(conn, ~p"/ticket_types")
 
@@ -32,11 +37,11 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
       assert html =~ ticket_type.name
     end
 
-    test "saves new ticket_type", %{conn: conn, event: event} do
+    test "saves new ticket_type", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/ticket_types")
 
-      assert index_live |> element("a", "New Ticket type") |> render_click() =~
-               "New Ticket type"
+      assert index_live |> element("a", "New Ticket Type") |> render_click() =~
+               "New Ticket Type"
 
       assert_patch(index_live, ~p"/ticket_types/new")
 
@@ -44,24 +49,28 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
              |> form("#ticket_type-form", ticket_type: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#ticket_type-form",
-               ticket_type: Map.merge(@create_attrs, %{event_id: event.id})
-             )
-             |> render_submit()
+      {:ok, _, html} =
+        index_live
+        |> form("#ticket_type-form",
+          ticket_type: %{
+            name: "early bird",
+            description: "some description",
+            price: 42,
+            number: 49
+          }
+        )
+        |> render_submit()
+        |> follow_redirect(conn, ~p"/ticket_types")
 
-      assert_patch(index_live, ~p"/ticket_types")
-
-      html = render(index_live)
       assert html =~ "Ticket type created successfully"
-      assert html =~ "some name"
+      assert html =~ "early bird"
     end
 
     test "updates ticket_type in listing", %{conn: conn, ticket_type: ticket_type} do
       {:ok, index_live, _html} = live(conn, ~p"/ticket_types")
 
-      assert index_live |> element("#ticket_types-#{ticket_type.id} a", "Edit") |> render_click() =~
-               "Edit Ticket type"
+      assert index_live |> element("#ticket_types-#{ticket_type.id}", "Edit") |> render_click() =~
+               "Edit"
 
       assert_patch(index_live, ~p"/ticket_types/#{ticket_type}/edit")
 
@@ -69,13 +78,12 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
              |> form("#ticket_type-form", ticket_type: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#ticket_type-form", ticket_type: @update_attrs)
-             |> render_submit()
+      {:ok, _, html} =
+        index_live
+        |> form("#ticket_type-form", ticket_type: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, ~p"/ticket_types")
 
-      assert_patch(index_live, ~p"/ticket_types")
-
-      html = render(index_live)
       assert html =~ "Ticket type updated successfully"
       assert html =~ "some updated name"
     end
@@ -83,43 +91,8 @@ defmodule ElixirConfAfricaWeb.TicketTypeLiveTest do
     test "deletes ticket_type in listing", %{conn: conn, ticket_type: ticket_type} do
       {:ok, index_live, _html} = live(conn, ~p"/ticket_types")
 
-      assert index_live
-             |> element("#ticket_types-#{ticket_type.id} a", "Delete")
-             |> render_click()
-
-      refute has_element?(index_live, "#ticket_types-#{ticket_type.id}")
-    end
-  end
-
-  describe "Show" do
-    test "displays ticket_type", %{conn: conn, ticket_type: ticket_type} do
-      {:ok, _show_live, html} = live(conn, ~p"/ticket_types/#{ticket_type}")
-
-      assert html =~ "Show Ticket type"
-      assert html =~ ticket_type.name
-    end
-
-    test "updates ticket_type within modal", %{conn: conn, ticket_type: ticket_type} do
-      {:ok, show_live, _html} = live(conn, ~p"/ticket_types/#{ticket_type}")
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Ticket type"
-
-      assert_patch(show_live, ~p"/ticket_types/#{ticket_type}/show/edit")
-
-      assert show_live
-             |> form("#ticket_type-form", ticket_type: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert show_live
-             |> form("#ticket_type-form", ticket_type: @update_attrs)
-             |> render_submit()
-
-      assert_patch(show_live, ~p"/ticket_types/#{ticket_type}")
-
-      html = render(show_live)
-      assert html =~ "Ticket type updated successfully"
-      assert html =~ "some updated name"
+      assert index_live |> element("#ticket_type-#{ticket_type.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#ticket_type-#{ticket_type.id}")
     end
   end
 end

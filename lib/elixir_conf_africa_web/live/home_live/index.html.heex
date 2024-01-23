@@ -1,143 +1,25 @@
-<div class="flex flex-col w-[100%]">
-  <div class="w-[90%] mx-auto h-[60px] flex justify-between items-center ">
-    <img
-      src="images/elixirconflogo.svg"
-      class="md:w-[160px] w-[127px] h-[23px] object-cover  md:h-[29px] "
-      alt=""
-    />
-    <div class="flex gap-4 items-center">
-      <button class="text-white bg-[#AD3989] border-[1px] w-[130px] text-sm h-[34px] flex gap-2 items-center justify-center rounded-[4px]">
-        <p>Become speaker</p>
+<div class="h-[100vh] relative w-[100%] ">
+  <img src="/images/background.png" class="w-[100%] h-[100%] object-cover absolute top-0 left-0" />
+  <div class="absolute top-12  mx-auto  left-12 flex flex-col gap-4 text-xl text-white h-[100%]">
+    <img src="/images/elixirconflogo.png" class="w-[200px] object-contain h-[200px]" />
+    <div class="w-[100%]">
+      <button class="bg-[#AD3989] px-4 py-2">
+        19th June - 23rd June 2024
       </button>
-      <div class="flex gap-1 items-center">
-        <p>Logout</p>
-        <img src="images/logout_icon.svg" class="w-[20px] object-contain h-[20px] " alt="" />
-      </div>
     </div>
-  </div>
-  <div
-    class="w-[100%] md:-mb-16  -mb-12 flex justify-center items-center text-white md:text-6xl text-2xl font-bold   h-[164px]"
-    style="background-image: url('/images/elixirconfbg.png');
-       background-size: cover;
-       background-position: center;"
-  >
-    ElixirConf Africa 2024
-  </div>
-  <div class="md:w-[144px] w-[91px] h-[91px] -md:mb-8  md:ml-12 ml-6 md:h-[144px] rounded-full ">
-    <img
-      src="images/Avatar.svg"
-      class="md:w-[144px] md:h-[144px] h-[91px] w-[91px] rounded-full object-cover"
-      alt=""
-    />
-  </div>
-  <div class="w-[100%]  pb-12 flex flex-col  px-4  justify-end items-end ">
-    <div class="md:flex hidden  flex-col items-end">
-      <div class="flex gap-2 items-center">
-        <p class="text-[#202020] poppins-regular">Backend Engineer</p>
-        <p class="text-[#AD8AA2] poppins-light">:Profession</p>
-      </div>
-      <div class="flex gap-2 items-center">
-        <p class="text-[#202020] poppins-regular">Backend Engineer</p>
-        <p class="text-[#AD8AA2] poppins-light">:Profession</p>
-      </div>
-    </div>
-    <div class="flex w-[100%] md:hidden  justify-start my-4 gap-2">
-      Backend Engineer at Wezacare Solutions
-    </div>
-
-    <div class="flex gap-4  items-center">
-      <div class="w-[117px] h-[28px] flex justify-center gap-2 items-center border-[1px] border-[#8FCCA0]  rounded-[50px]">
-        <img src="images/attending.svg" class="w-[12px] h-[12px] " alt="" />
-        <p class="text-[#8FCCA0] poppins-regular">Attending</p>
-      </div>
-      <div class="w-[230px] h-[26px] poppins-light rounded-[50px] flex text-sm justify-center bg-[#9AD7D8] items-center">
-        <img src="images/calendar.svg" class="w-[12px] h-[12px] " alt="" />
-        <p>June 19 2024 | June 23 2024</p>
-      </div>
-    </div>
-  </div>
-  <div class="w-[90%] poppins-regular  flex md:gap-8 gap-4 items-center mx-auto">
-    <p>
-      Details
+    <p class="text-3xl font-bold">
+      Elixir Conf 2024
     </p>
-    <p>
-      Cart
+    <p class="w-[30%]">
+      Dive deep into Elixir through interactive workshops led by experienced mentors, providing practical experience and enhancing your understanding of the language.
     </p>
-    <p>
-      Payment
-    </p>
-    <p>
-      Payment Details
-    </p>
-  </div>
-</div>
-
-<%!-- navbar --%>
-
-<div class=" bg-[#F2F2F2]/50 py-12 pt-5">
-  <div class="w-[90%]  flex mx-auto">
-    <div class="w-[100%]  flex md:flex-row gap-8 flex-col justify-between items-start">
-      <div class="md:w-[30%] h-[377px] w-[100%] bg-white rounded-[8px] flex flex-col gap-4 p-4 border-[1px] border-[#E6E6E6] ">
-        <p class="text-[20px]  poppins-bold leading-[36px]">
-          Event Information
-        </p>
-        <div class="grid poppins-light grid-cols-2 gap-4 w-[100%]">
-          <div class="flex flex-col gap-1">
-            <p>Start Date</p>
-            <p class="poppins-regular "><%= @event.start_date %></p>
-          </div>
-          <div class="flex flex-col gap-1">
-            <p>End Date</p>
-            <p class="poppins-regular "><%= @event.start_date %></p>
-          </div>
-          <div class="flex flex-col gap-1">
-            <p>Event Type</p>
-            <p class="poppins-regular "><%= @event.event_type %></p>
-          </div>
-          <div class="flex flex-col gap-1">
-            <p>Available Tickets</p>
-            <p class="poppins-regular "><%= @available_tickets %></p>
-          </div>
-        </div>
-        <div class="flex poppins-light flex-col gap-1">
-          <p>Location</p>
-          <p class="poppins-regular"><%= @event.location %></p>
-        </div>
-        <div class="flex flex-col gap-1">
-          <p>Hosted by</p>
-          <p class="poppins-regular ">Elixir Conf Africa</p>
-        </div>
-      </div>
-      <div class="md:w-[65%]  w-[100%] md:h-[505px] bg-white rounded-[8px] border-[1px] border-[#E6E6E6]  flex flex-col gap-4 p-4 ">
-        <p class="poppins-bold text-xl">Available Tickets</p>
-
-        <div class="grid md:grid-cols-2 gap-8 w-[100%]">
-          <%= for ticket_type <- @event.ticket_types do %>
-            <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
-              <div class="flex  poppins-regular justify-between w-[100%]">
-                <p class="text-[#AD3989]"><%= ticket_type.name %></p>
-                <p class="text-[#4D4D4D]"><%= ticket_type.number %>Tickets</p>
-              </div>
-              <p class="poppins-light text-sm text-[#4D4D4D]">
-                <%= ticket_type.description %>
-              </p>
-              <div class="flex items-center justify-between w-[100%]">
-                <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
-                <div class="flex gap-3 poppins-regular items-center">
-                  <button class="p-4 border-[1px] w-[73px] text-sm h-[34px] border-[#AD3989] text-[#AD3989]  flex gap-2 items-center justify-center rounded-[4px]">
-                    <p>+</p>
-                    <p>Cart</p>
-                  </button>
-                  <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
-                    Get
-                    <p>Ticket</p>
-                  </button>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
+    <p class="h-[2px] w-[200px] bg-[#AD3989]" />
+    <div class="flex gap-4 items-center">
+      <.link navigate={~p"/event"}>
+        <button class="text-white bg-[#AD3989] border-[1px] w-[130px] text-sm hover:scale-105 transition-all ease-in-out h-[34px] flex gap-2 items-center justify-center rounded-[4px]">
+          <p>Buy Tickets</p>
+        </button>
+      </.link>
     </div>
   </div>
 </div>

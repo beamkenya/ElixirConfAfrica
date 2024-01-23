@@ -1,0 +1,33 @@
+<div class="flex justify-between items-center">
+  <h1 class="text-2xl font-bold">Listing Refunded Tickets</h1>
+</div>
+
+<table class="w-[100%] mt-4">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Ticket id</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody class="p-2 text-center   
+
+
+  
+  
+   " id="ticket">
+    <%= for ticket <- @ticket_collection do %>
+      <tr id={"ticket-#{ticket.id}"}>
+        <td><%= ticket.name %></td>
+        <td><%= ticket.email %></td>
+        <td><%= ticket.ticketid %></td>
+        <td><%= ticket.quantity %></td>
+        <td><%= ticket.cost %> KSH /=</td>
+        <td><%= ticket.ticket_type.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
