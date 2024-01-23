@@ -1,39 +1,13 @@
-<.header>
-  Listing Ticket types
-  <:actions>
-    <.link patch={~p"/ticket_types/new"}>
-      <.button>New Ticket type</.button>
-    </.link>
-  </:actions>
-</.header>
-
-<.table
-  id="ticket_types"
-  rows={@streams.ticket_types}
-  row_click={fn {_id, ticket_type} -> JS.navigate(~p"/ticket_types/#{ticket_type}") end}
->
-  <:col :let={{_id, ticket_type}} label="Name"><%= ticket_type.name %></:col>
-  <:col :let={{_id, ticket_type}} label="Number"><%= ticket_type.number %></:col>
-  <:col :let={{_id, ticket_type}} label="Event ID">
-    <.link navigate={~p"/events/#{ticket_type.event_id}"}><%= ticket_type.event_id %></.link>
-  </:col>
-  <:col :let={{_id, ticket_type}} label="Description"><%= ticket_type.description %></:col>
-  <:col :let={{_id, ticket_type}} label="Price"><%= ticket_type.price %></:col>
-  <:action :let={{_id, ticket_type}}>
-    <div class="sr-only">
-      <.link navigate={~p"/ticket_types/#{ticket_type}"}>Show</.link>
-    </div>
-    <.link patch={~p"/ticket_types/#{ticket_type}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, ticket_type}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: ticket_type.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
-  </:action>
-</.table>
+<div class="flex justify-between items-center">
+  <.header>
+    Listing Ticket types
+    <:actions>
+      <.link patch={~p"/ticket_types/new"}>
+        <.button>New Ticket type</.button>
+      </.link>
+    </:actions>
+  </.header>
+</div>
 
 <.modal
   :if={@live_action in [:new, :edit]}
@@ -50,3 +24,40 @@
     patch={~p"/ticket_types"}
   />
 </.modal>
+
+<table class="w-[100%] mt-4">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="p-2 text-center " id="ticket_types">
+    <%= for ticket_type <- @ticket_types do %>
+      <tr id={"ticket_type-#{ticket_type.id}"}>
+        <td><%= ticket_type.name %></td>
+        <td><%= ticket_type.description %></td>
+        <td><%= ticket_type.price %></td>
+
+        <td>
+          <div class="flex justify-center items-center gap-2">
+            <.link patch={~p"/ticket_types/#{ticket_type}/edit"}>Edit</.link>
+
+            <span>
+              <.link
+                phx-click={
+                  JS.push("delete", value: %{id: ticket_type.id}) |> hide("##{ticket_type.id}")
+                }
+                data-confirm="Are you sure?"
+              >
+                Delete
+              </.link>
+            </span>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

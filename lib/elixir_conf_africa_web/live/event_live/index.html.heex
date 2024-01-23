@@ -1,51 +1,63 @@
-<.header>
-  Listing Events
-  <:actions>
-    <.link patch={~p"/events/new"}>
-      <.button>New Event</.button>
-    </.link>
-  </:actions>
-</.header>
-
-<.table
-  id="events"
-  rows={@streams.events}
-  row_click={fn {_id, event} -> JS.navigate(~p"/events/#{event}") end}
->
-  <:col :let={{_id, event}} label="Name"><%= event.name %></:col>
-  <:col :let={{_id, event}} label="Event type"><%= event.event_type %></:col>
-  <:col :let={{_id, event}} label="Location"><%= event.location %></:col>
-  <:col :let={{_id, event}} label="Description"><%= event.description %></:col>
-  <:col :let={{_id, event}} label="Start date"><%= event.start_date %></:col>
-  <:col :let={{_id, event}} label="End date"><%= event.end_date %></:col>
-  <:action :let={{_id, event}}>
-    <div class="sr-only">
-      <.link navigate={~p"/events/#{event}"}>Show</.link>
-    </div>
-    <.link patch={~p"/events/#{event}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, event}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: event.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
-  </:action>
-</.table>
-
 <.modal
-  :if={@live_action in [:new, :edit]}
-  id="event-modal"
+  :if={@live_action in [:ticket]}
+  id="buy-ticket-modal"
   show
-  on_cancel={JS.patch(~p"/events")}
+  on_cancel={JS.patch(~p"/event")}
 >
   <.live_component
-    module={ElixirConfAfricaWeb.EventLive.FormComponent}
-    id={@event.id || :new}
+    module={ElixirConfAfricaWeb.TicketLive.FormComponent}
+    id={:new}
     title={@page_title}
     action={@live_action}
-    event={@event}
-    patch={~p"/events"}
+    ticket_type={@ticket_type}
+    ticket={@ticket}
+    patch={~p"/event"}
   />
 </.modal>
+
+<div
+  class="w-[100%]  flex justify-center items-center text-white md:text-6xl text-2xl font-bold   h-[164px]"
+  style="background-image: url('/images/elixirconfbg.png'); background-size: cover; background-position: center;"
+>
+  ElixirConf Africa 2024
+</div>
+
+<div class=" bg-[#F2F2F2]/50 flex justify-center items-center  py-16">
+  <div class="w-[90%]  flex mx-auto">
+    <div class="w-[100%]  flex md:flex-row gap-8 flex-col justify-between items-start">
+      <div class=" w-[100%] md:h-[505px] bg-white rounded-[8px] border-[1px] border-[#E6E6E6]  flex flex-col gap-4 p-4 ">
+        <p class="poppins-bold text-xl">Available Tickets</p>
+
+        <div class="grid md:grid-cols-2 gap-8 w-[100%]">
+          <%= for ticket_type <- @ticket_types do %>
+            <div class="w-[100%] border-[#E6E6E6] border-[1px] rounded-[8px]  h-[170px] flex flex-col justify-between p-3">
+              <div class="flex  poppins-regular justify-between w-[100%]">
+                <p class="text-[#AD3989]"><%= ticket_type.name %></p>
+                <p class="text-[#4D4D4D]">
+                  <%= ticket_type.remaining_tickets %> Tickets Remaining
+                </p>
+              </div>
+              <p class="poppins-light text-sm text-[#4D4D4D]">
+                <%= ticket_type.description %>
+              </p>
+              <div class="flex items-center justify-between w-[100%]">
+                <p class="poppins-bold text-xl">KSH <%= ticket_type.price %></p>
+                <div class="flex gap-3 poppins-regular items-center">
+                  <.link
+                    navigate={~p"/event/#{ticket_type.id}/buy"}
+                    id="buy-#{ticket_type.id}-tickets"
+                  >
+                    <button class="p-4 border-[1px] w-[87px] text-xs h-[34px] bg-[#AD3989] text-white gap-2   flex items-center justify-center rounded-[4px]">
+                      Get
+                      <p>Ticket</p>
+                    </button>
+                  </.link>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

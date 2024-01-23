@@ -1,6 +1,8 @@
 defmodule ElixirConfAfricaWeb.Router do
   use ElixirConfAfricaWeb, :router
 
+  import ElixirConfAfricaWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule ElixirConfAfricaWeb.Router do
     plug :put_root_layout, html: {ElixirConfAfricaWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -15,25 +18,30 @@ defmodule ElixirConfAfricaWeb.Router do
   end
 
   scope "/", ElixirConfAfricaWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-
-    live "/home", HomeLive.Index, :index
-
-    live "/events", EventLive.Index, :index
-    live "/events/new", EventLive.Index, :new
-    live "/events/:id/edit", EventLive.Index, :edit
-
-    live "/events/:id", EventLive.Show, :show
-    live "/events/:id/show/edit", EventLive.Show, :edit
-
+    pipe_through [:browser, :require_authenticated_admin]
     live "/ticket_types", TicketTypeLive.Index, :index
     live "/ticket_types/new", TicketTypeLive.Index, :new
     live "/ticket_types/:id/edit", TicketTypeLive.Index, :edit
 
-    live "/ticket_types/:id", TicketTypeLive.Show, :show
-    live "/ticket_types/:id/show/edit", TicketTypeLive.Show, :edit
+    live "/tickets/paid", PaidTicketLive.Index, :index
+
+    live "/tickets/refunded", RefundedTicketLive.Index, :index
+    live "/tickets/unpaid", UnPaidTicketLive.Index, :index
+    live "/tickets/new", TicketLive.Index, :new
+    live "/tickets/:id/edit", TicketLive.Index, :edit
+
+    live "/transactions", TransactionLive.Index, :index
+    live "/users", UserLive.Index, :index
+  end
+
+  scope "/", ElixirConfAfricaWeb do
+    pipe_through :browser
+
+    live "/", HomeLive.Index, :index
+    live "/event", EventLive.Index, :index
+    live "/event/:ticket_type_id/buy", EventLive.Index, :ticket
+    live "/success", SuccessLive.Index, :index
+    live "/tickets/:ticketid", TicketLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
@@ -56,5 +64,38 @@ defmodule ElixirConfAfricaWeb.Router do
       live_dashboard "/dashboard", metrics: ElixirConfAfricaWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", ElixirConfAfricaWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
+    get "/users/reset_password", UserResetPasswordController, :new
+    post "/users/reset_password", UserResetPasswordController, :create
+    get "/users/reset_password/:token", UserResetPasswordController, :edit
+    put "/users/reset_password/:token", UserResetPasswordController, :update
+  end
+
+  scope "/", ElixirConfAfricaWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/users/settings", UserSettingsController, :edit
+    put "/users/settings", UserSettingsController, :update
+    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/", ElixirConfAfricaWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+    get "/users/confirm", UserConfirmationController, :new
+    post "/users/confirm", UserConfirmationController, :create
+    get "/users/confirm/:token", UserConfirmationController, :edit
+    post "/users/confirm/:token", UserConfirmationController, :update
   end
 end

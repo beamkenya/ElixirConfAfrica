@@ -1,0 +1,41 @@
+<div class="flex justify-between items-center">
+  <h1 class="text-2xl font-bold">Listing Paid Tickets</h1>
+</div>
+
+<table class="w-[100%] mt-4">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Ticket id</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Email Action</th>
+    </tr>
+  </thead>
+  <tbody class="p-2 text-center " id="ticket">
+    <%= for ticket <- @ticket_collection do %>
+      <tr id={"ticket-#{ticket.id}"}>
+        <td><%= ticket.name %></td>
+        <td><%= ticket.email %></td>
+        <td><%= ticket.ticketid %></td>
+        <td><%= ticket.quantity %></td>
+        <td><%= ticket.cost %> KSH /=</td>
+        <td><%= ticket.ticket_type.name %></td>
+        <td>
+          <div class="flex justify-center items-center p-2 rounded-md ">
+            <button
+              class="bg-green-500 text-white p-2 rounded-md"
+              phx-click="send_email"
+              phx-value-ticketid={ticket.ticketid}
+              id={"send-email-#{ticket.id}"}
+            >
+              Send Email
+            </button>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

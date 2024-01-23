@@ -1,0 +1,40 @@
+<div>
+  <.simple_form
+    for={@form}
+    id="event-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <p class="text-[#AD3989] text-xl font-bold">
+      <%= @ticket_type.name %> Ticket - <%= @ticket_type.price %> KSH /=
+    </p>
+
+    <p>
+      Your ticket and payment details will be sent to your email address you will input below.
+    </p>
+
+    <div class="flex w-[100%] flex-col gap-2">
+      <div class="relative w-[100%] ">
+        <.input field={@form[:name]} type="text" label="Name" />
+      </div>
+    </div>
+    <div class="flex w-[100%] flex-col gap-2">
+      <.input field={@form[:email]} type="text" label="Email" />
+    </div>
+    <div class="flex w-[100%] flex-col gap-2">
+      <.input field={@form[:quantity]} type="number" label="Quantity of Tickets" />
+    </div>
+
+    <:actions>
+      <div class="w-[100%]">
+        <.button
+          phx-disable-with="Proceeding.."
+          class="w-[100%] flex justify-center items-center bg-[#AD3989]"
+        >
+          Proceed to Payment
+        </.button>
+      </div>
+    </:actions>
+  </.simple_form>
+</div>

@@ -1,12 +1,12 @@
 defmodule ElixirConfAfricaWeb.TicketTypeLive.Index do
-  use ElixirConfAfricaWeb, :live_view
+  use ElixirConfAfricaWeb, :admin_live_view
 
   alias ElixirConfAfrica.TicketTypes
   alias ElixirConfAfrica.TicketTypes.TicketType
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :ticket_types, TicketTypes.list_ticket_types())}
+    {:ok, assign(socket, :ticket_types, list_ticket_types())}
   end
 
   @impl true
@@ -33,18 +33,14 @@ defmodule ElixirConfAfricaWeb.TicketTypeLive.Index do
   end
 
   @impl true
-  def handle_info(
-        {ElixirConfAfricaWeb.TicketTypeLive.FormComponent, {:saved, ticket_type}},
-        socket
-      ) do
-    {:noreply, stream_insert(socket, :ticket_types, ticket_type)}
-  end
-
-  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     ticket_type = TicketTypes.get_ticket_type!(id)
     {:ok, _} = TicketTypes.delete_ticket_type(ticket_type)
 
-    {:noreply, stream_delete(socket, :ticket_types, ticket_type)}
+    {:noreply, assign(socket, :ticket_types, list_ticket_types())}
+  end
+
+  defp list_ticket_types do
+    TicketTypes.list_ticket_types()
   end
 end
