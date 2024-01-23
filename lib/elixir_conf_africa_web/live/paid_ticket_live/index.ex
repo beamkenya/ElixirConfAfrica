@@ -1,8 +1,8 @@
 defmodule ElixirConfAfricaWeb.PaidTicketLive.Index do
   use ElixirConfAfricaWeb, :admin_live_view
 
-  alias ElixirConfAfrica.Tickets
   alias ElixirConfAfrica.Emails
+  alias ElixirConfAfrica.Tickets
 
   @impl true
   def mount(_params, _session, socket) do

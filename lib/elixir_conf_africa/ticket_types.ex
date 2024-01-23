@@ -6,8 +6,8 @@ defmodule ElixirConfAfrica.TicketTypes do
   import Ecto.Query, warn: false
   alias ElixirConfAfrica.Repo
 
-  alias ElixirConfAfrica.TicketTypes.TicketType
   alias ElixirConfAfrica.Tickets.Ticket
+  alias ElixirConfAfrica.TicketTypes.TicketType
 
   @doc """
   Returns the list of ticket_types.

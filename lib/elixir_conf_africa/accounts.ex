@@ -4,9 +4,8 @@ defmodule ElixirConfAfrica.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias ElixirConfAfrica.Accounts.{User, UserNotifier, UserToken}
   alias ElixirConfAfrica.Repo
-
-  alias ElixirConfAfrica.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 

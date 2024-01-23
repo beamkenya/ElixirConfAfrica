@@ -1,7 +1,8 @@
 defmodule ElixirConfAfricaWeb.EventLive.Index do
   use ElixirConfAfricaWeb, :live_view
-  alias ElixirConfAfrica.TicketTypes
+
   alias ElixirConfAfrica.Tickets.Ticket
+  alias ElixirConfAfrica.TicketTypes
   @impl true
   def mount(_params, _session, socket) do
     ticket_types = TicketTypes.list_ticket_types_with_remaining_tickets()

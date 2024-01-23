@@ -1,8 +1,7 @@
 defmodule ElixirConfAfricaWeb.TicketLive.FormComponent do
   use ElixirConfAfricaWeb, :live_component
-
-  alias ElixirConfAfrica.Tickets
   alias ElixirConfAfrica.Paystack
+  alias ElixirConfAfrica.Tickets
 
   @impl true
   def update(%{ticket: ticket} = assigns, socket) do

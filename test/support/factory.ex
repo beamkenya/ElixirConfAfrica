@@ -1,10 +1,9 @@
 defmodule ElixirConfAfrica.Factory do
   @moduledoc false
   use ExMachina.Ecto, repo: ElixirConfAfrica.Repo
-
+  alias ElixirConfAfrica.Accounts.User
   alias ElixirConfAfrica.Tickets.Ticket
   alias ElixirConfAfrica.TicketTypes.TicketType
-  alias ElixirConfAfrica.Accounts.User
 
   def ticket_type_factory do
     %TicketType{

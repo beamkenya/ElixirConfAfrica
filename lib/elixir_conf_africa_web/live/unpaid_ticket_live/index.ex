@@ -1,10 +1,10 @@
 defmodule ElixirConfAfricaWeb.UnPaidTicketLive.Index do
   use ElixirConfAfricaWeb, :admin_live_view
 
+  alias ElixirConfAfrica.Emails
   alias ElixirConfAfrica.Tickets
 
   alias ElixirConfAfrica.Paystack
-  alias ElixirConfAfrica.Emails
   @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :ticket_collection, list_unpaid_tickets())}

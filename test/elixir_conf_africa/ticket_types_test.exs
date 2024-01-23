@@ -4,8 +4,8 @@ defmodule ElixirConfAfrica.TicketTypesTest do
   alias ElixirConfAfrica.Factory
 
   describe "ticket_types" do
-    alias ElixirConfAfrica.TicketTypes.TicketType
     alias ElixirConfAfrica.TicketTypes
+    alias ElixirConfAfrica.TicketTypes.TicketType
 
     @invalid_attrs %{name: nil, description: nil, price: nil}
 

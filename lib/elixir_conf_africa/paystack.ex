@@ -2,9 +2,9 @@ defmodule ElixirConfAfrica.Paystack do
   @moduledoc """
   The Paystack module is responsible for all the interactions with the Paystack API
   """
-  defp api_url(), do: "https://api.paystack.co/transaction/initialize"
+  defp api_url, do: "https://api.paystack.co/transaction/initialize"
 
-  defp paystack_headers(),
+  defp paystack_headers,
     do: [
       {
         "Content-Type",

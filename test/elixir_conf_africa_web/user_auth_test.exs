@@ -1,9 +1,9 @@
 defmodule ElixirConfAfricaWeb.UserAuthTest do
   use ElixirConfAfricaWeb.ConnCase, async: true
 
-  alias Phoenix.LiveView
   alias ElixirConfAfrica.Accounts
   alias ElixirConfAfricaWeb.UserAuth
+  alias Phoenix.LiveView
   import ElixirConfAfrica.AccountsFixtures
 
   @remember_me_cookie "_elixir_conf_africa_web_user_remember_me"

@@ -1,8 +1,8 @@
 defmodule ElixirConfAfrica.TicketsTest do
   use ElixirConfAfrica.DataCase
 
-  alias ElixirConfAfrica.Tickets
   alias ElixirConfAfrica.Factory
+  alias ElixirConfAfrica.Tickets
   alias ElixirConfAfrica.Tickets.Ticket
 
   describe "ticket" do
