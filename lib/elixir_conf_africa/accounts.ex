@@ -32,16 +32,13 @@ defmodule ElixirConfAfrica.Accounts do
   """
 
   def list_users_apart_from_current_user(current_user) do
-    from(u in User,
-      where: u.id != ^current_user.id,
-      order_by: u.email,
-      select: u
+    Repo.all(
+      from(u in User,
+        where: u.id != ^current_user.id,
+        order_by: u.email,
+        select: u
+      )
     )
-    |> Repo.all()
-  end
-
-  def list_users do
-    Repo.all(User)
   end
 
   @doc """

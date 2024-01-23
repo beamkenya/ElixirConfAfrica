@@ -26,18 +26,19 @@ defmodule ElixirConfAfrica.Tickets do
 
   """
 
-  def get_ticket_by_ticketid!(ticketid),
-    do: Repo.get_by!(Ticket, ticketid: ticketid) |> Repo.preload(:ticket_type)
+  def get_ticket_by_ticketid!(ticketid) do
+    Ticket
+    |> Repo.get_by!(ticketid: ticketid)
+    |> Repo.preload(:ticket_type)
+  end
 
   @doc """
   List paid tickets.
 
   """
   def list_paid_tickets do
-    from(t in Ticket,
-      where: t.is_paid == true and t.is_refunded == false,
-      select: t
-    )
+    Ticket
+    |> where([t], t.is_paid == true and t.is_refunded == false)
     |> Repo.all()
     |> Repo.preload(:ticket_type)
   end
@@ -47,10 +48,8 @@ defmodule ElixirConfAfrica.Tickets do
 
   """
   def list_refunded_tickets do
-    from(t in Ticket,
-      where: t.is_refunded == true,
-      select: t
-    )
+    Ticket
+    |> where([t], t.is_refunded == true)
     |> Repo.all()
     |> Repo.preload(:ticket_type)
   end
@@ -60,10 +59,8 @@ defmodule ElixirConfAfrica.Tickets do
 
   """
   def list_unpaid_tickets do
-    from(t in Ticket,
-      where: t.is_paid == false and t.is_refunded == false,
-      select: t
-    )
+    Ticket
+    |> where([t], t.is_paid == false and t.is_refunded == false)
     |> Repo.all()
     |> Repo.preload(:ticket_type)
   end

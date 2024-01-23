@@ -29,19 +29,20 @@ defmodule ElixirConfAfrica.TicketTypes do
   """
 
   def list_ticket_types_with_remaining_tickets do
-    from(tick in TicketType,
-      left_join: t in Ticket,
-      on: t.ticket_type_id == tick.id and t.is_paid == true and t.is_refunded == false,
-      group_by: tick.id,
-      select: %{
-        id: tick.id,
-        name: tick.name,
-        remaining_tickets: coalesce(tick.number - count(t.id), 0),
-        description: tick.description,
-        price: tick.price
-      }
+    Repo.all(
+      from(tick in TicketType,
+        left_join: t in Ticket,
+        on: t.ticket_type_id == tick.id and t.is_paid == true and t.is_refunded == false,
+        group_by: tick.id,
+        select: %{
+          id: tick.id,
+          name: tick.name,
+          remaining_tickets: coalesce(tick.number - count(t.id), 0),
+          description: tick.description,
+          price: tick.price
+        }
+      )
     )
-    |> Repo.all()
   end
 
   @doc """
