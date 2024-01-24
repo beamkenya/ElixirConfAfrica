@@ -7,7 +7,15 @@ defmodule ElixirConfAfricaWeb.UnPaidTicketLive.Index do
   alias ElixirConfAfrica.Paystack
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :ticket_collection, list_unpaid_tickets())}
+    unpaid_tickets = Tickets.list_unpaid_tickets()
+
+    {:ok,
+     socket
+     |> assign(:page_number, unpaid_tickets.page_number)
+     |> assign(:page_size, unpaid_tickets.page_size)
+     |> assign(:total_entries, unpaid_tickets.total_entries)
+     |> assign(:total_pages, unpaid_tickets.total_pages)
+     |> assign(:ticket_collection, list_unpaid_tickets())}
   end
 
   @impl true
@@ -33,23 +41,12 @@ defmodule ElixirConfAfricaWeb.UnPaidTicketLive.Index do
   end
 
   defp list_unpaid_tickets do
-    Tickets.list_unpaid_tickets()
+    Tickets.list_unpaid_tickets().entries
     |> Enum.map(fn ticket ->
-      %{
-        id: ticket.id,
-        name: ticket.name,
-        email: ticket.email,
-        quantity: ticket.quantity,
-        phone_number: ticket.phone_number,
-        cost: ticket.cost,
-        ticketid: ticket.ticketid,
-        ticket_type_id: ticket.ticket_type_id,
-        is_paid: ticket.is_paid,
-        is_refunded: ticket.is_refunded,
-        ticket_type: ticket.ticket_type,
-        payment_status: check_payment_status(ticket.ticketid)
-      }
+      ticket
+      |> Map.put(:payment_status, check_payment_status(ticket.ticketid))
     end)
+    |> IO.inspect()
   end
 
   defp check_payment_status(ticketid) do

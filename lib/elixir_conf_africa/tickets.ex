@@ -37,10 +37,12 @@ defmodule ElixirConfAfrica.Tickets do
 
   """
   def list_paid_tickets do
-    Ticket
-    |> where([t], t.is_paid == true and t.is_refunded == false)
-    |> Repo.all()
-    |> Repo.preload(:ticket_type)
+    from(t in Ticket,
+      where: t.is_paid and t.is_refunded == false,
+      select: t,
+      preload: [:ticket_type]
+    )
+    |> Repo.paginate()
   end
 
   @doc """
@@ -48,21 +50,39 @@ defmodule ElixirConfAfrica.Tickets do
 
   """
   def list_refunded_tickets do
-    Ticket
-    |> where([t], t.is_refunded == true)
-    |> Repo.all()
-    |> Repo.preload(:ticket_type)
+    from(t in Ticket,
+      where: t.is_refunded,
+      select: t,
+      preload: [:ticket_type]
+    )
+    |> Repo.paginate()
   end
 
   @doc """
   List unpaid tickets.
 
   """
+
   def list_unpaid_tickets do
-    Ticket
-    |> where([t], t.is_paid == false and t.is_refunded == false)
-    |> Repo.all()
-    |> Repo.preload(:ticket_type)
+    from(t in Ticket,
+      where: t.is_paid == false and t.is_refunded == false,
+      left_join: type in assoc(t, :ticket_type),
+      on: type.id == t.ticket_type_id,
+      select: %{
+        id: t.id,
+        name: t.name,
+        email: t.email,
+        quantity: t.quantity,
+        phone_number: t.phone_number,
+        cost: t.cost,
+        ticketid: t.ticketid,
+        ticket_type_id: t.ticket_type_id,
+        is_paid: t.is_paid,
+        is_refunded: t.is_refunded,
+        ticket_type: type
+      }
+    )
+    |> Repo.paginate()
   end
 
   @doc """

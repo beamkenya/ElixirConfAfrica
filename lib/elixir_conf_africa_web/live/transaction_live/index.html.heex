@@ -20,14 +20,14 @@
   <tbody class="p-2 text-center ">
     <%= for transaction <- @transactions do %>
       <tr>
-        <td class="py-2"><%= transaction["reference"] %></td>
-        <td><%= transaction["amount"] %></td>
-        <td><%= transaction["status"] %></td>
-        <td><%= transaction["currency"] %></td>
+        <td class="py-2"><%= transaction.reference %></td>
+        <td><%= transaction.amount %></td>
+        <td><%= transaction.status %></td>
+        <td><%= transaction.currency %></td>
 
-        <td><%= transaction["email"] %></td>
-        <td><%= transaction["bank"] %></td>
-        <td><%= transaction["paid_at"] %></td>
+        <td><%= transaction.email %></td>
+        <td><%= transaction.bank %></td>
+        <td><%= transaction.paid_at %></td>
       </tr>
     <% end %>
   </tbody>

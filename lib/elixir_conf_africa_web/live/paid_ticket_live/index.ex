@@ -6,7 +6,13 @@ defmodule ElixirConfAfricaWeb.PaidTicketLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :ticket_collection, list_paid_tickets())}
+    {:ok,
+     socket
+     |> assign(:page_number, list_paid_tickets().page_number)
+     |> assign(:page_size, list_paid_tickets().page_size)
+     |> assign(:total_entries, list_paid_tickets().total_entries)
+     |> assign(:total_pages, list_paid_tickets().total_pages)
+     |> assign(:ticket_collection, list_paid_tickets().entries)}
   end
 
   @impl true
@@ -30,7 +36,8 @@ defmodule ElixirConfAfricaWeb.PaidTicketLive.Index do
      |> put_flash(:info, "Ticket sent successfully")}
   end
 
-  defp list_paid_tickets do
+  defp list_paid_tickets() do
     Tickets.list_paid_tickets()
+    |> IO.inspect()
   end
 end

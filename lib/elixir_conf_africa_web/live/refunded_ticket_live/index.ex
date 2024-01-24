@@ -5,7 +5,13 @@ defmodule ElixirConfAfricaWeb.RefundedTicketLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :ticket_collection, list_refunded_tickets())}
+    {:ok,
+     socket
+     |> assign(:page_number, list_refunded_tickets().page_number)
+     |> assign(:page_size, list_refunded_tickets().page_size)
+     |> assign(:total_entries, list_refunded_tickets().total_entries)
+     |> assign(:total_pages, list_refunded_tickets().total_pages)
+     |> assign(:ticket_collection, list_refunded_tickets().entries)}
   end
 
   @impl true

@@ -1,4 +1,7 @@
 defmodule ElixirConfAfrica.Paystack do
+  alias ElixirConfAfrica.Repo
+  alias ElixirConfAfrica.Transaction
+
   @moduledoc """
   The Paystack module is responsible for all the interactions with the Paystack API
   """
@@ -71,14 +74,14 @@ defmodule ElixirConfAfrica.Paystack do
   def list_transactions do
     get_transactions()
     |> Enum.map(fn transaction ->
-      %{
-        "reference" => transaction["reference"],
-        "amount" => transaction["amount"],
-        "status" => transaction["status"],
-        "currency" => transaction["currency"],
-        "paid_at" => transaction["paid_at"],
-        "email" => transaction["customer"]["email"],
-        "bank" => transaction["authorization"]["bank"]
+      %Transaction{
+        amount: transaction["amount"],
+        status: transaction["status"],
+        currency: transaction["currency"],
+        paid_at: transaction["paid_at"],
+        email: transaction["customer"]["email"],
+        bank: transaction["authorization"]["bank"],
+        reference: transaction["reference"]
       }
     end)
   end
