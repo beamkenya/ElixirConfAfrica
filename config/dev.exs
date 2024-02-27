@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :elixir_conf_africa, ElixirConfAfrica.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "welcome2",
   hostname: "localhost",
   database: "elixir_conf_africa_dev",
   stacktrace: true,
@@ -19,7 +19,7 @@ config :elixir_conf_africa, ElixirConfAfrica.Repo,
 config :elixir_conf_africa, ElixirConfAfricaWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: 4100],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

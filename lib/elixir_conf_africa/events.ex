@@ -33,7 +33,6 @@ defmodule ElixirConfAfrica.Events do
         join: ticket_types in assoc(event, :ticket_types),
         where: event.name == ^event_name,
         preload: [ticket_types: ticket_types]
-
     Repo.one(query)
   end
 
